@@ -9,6 +9,7 @@ import { EliminationAlert } from '../components/EliminationAlert';
 import { SettlementModal } from '../components/SettlementModal';
 import { ActivityFeed } from '../components/ActivityFeed';
 import { DemoControls } from '../components/DemoControls';
+import { Landmark } from 'lucide-react';
 
 export default function Home() {
   return (
@@ -17,13 +18,10 @@ export default function Home() {
         {/* Top Navigation */}
         <Navbar />
 
-        {/* Demo Fast/Simulation Controls */}
-        <DemoControls />
-
         {/* Active Elimination Banner Overlay */}
         <EliminationAlert />
 
-        {/* Hero Section */}
+        {/* Landing Hero Section & 20-Second Guide */}
         <WorldFairHeader />
 
         {/* 8 Nations Grid */}
@@ -35,11 +33,15 @@ export default function Home() {
         {/* Settlement Modal Triggered on Winner */}
         <SettlementModal />
 
+        {/* Non-intrusive Floating Demo Bar */}
+        <DemoControls />
+
         {/* World Fair Footer */}
         <footer className="w-full border-t border-white/5 py-8 mt-12 bg-slate-950/80 text-center text-xs font-mono text-slate-500">
           <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
-              <span>🏛️ THE LAST PAVILION</span>
+              <Landmark size={14} className="text-amber-400" />
+              <span className="text-slate-300 font-bold">THE LAST PAVILION</span>
               <span>•</span>
               <span className="text-slate-400">CRYPTO'S WORLD FAIR</span>
             </div>

@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { useGame } from '../context/GameContext';
-import { Award, CheckCircle, ExternalLink, Zap, RefreshCw, ShieldCheck } from 'lucide-react';
+import { Award, CheckCircle, RefreshCw, ShieldCheck } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { NationIcon } from './NationIcon';
 
 export function SettlementModal() {
   const { round, resetRound } = useGame();
@@ -48,8 +49,15 @@ export function SettlementModal() {
         <div className="w-32 h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent rounded-full mb-6" />
 
         {/* Champion Badge */}
-        <div className="w-20 h-20 rounded-2xl bg-amber-500/10 border-2 border-amber-500/40 flex items-center justify-center text-5xl mb-4 shadow-[0_0_30px_rgba(245,158,11,0.3)] animate-pulse">
-          {winner.emoji}
+        <div
+          className="w-20 h-20 rounded-2xl flex items-center justify-center mb-4 shadow-[0_0_30px_rgba(245,158,11,0.3)] animate-pulse border-2"
+          style={{
+            backgroundColor: `${winner.color}20`,
+            borderColor: `${winner.color}60`,
+            color: winner.color,
+          }}
+        >
+          <NationIcon name={winner.icon} size={40} />
         </div>
 
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-mono font-bold tracking-wider uppercase mb-2">
@@ -82,7 +90,7 @@ export function SettlementModal() {
             <div className="text-[10px] text-slate-500 uppercase">SETTLEMENT</div>
             <div className="text-lg sm:text-xl font-bold text-emerald-400 flex items-center gap-1">
               <CheckCircle size={15} />
-              SOLANA
+              SOLANA L1
             </div>
           </div>
         </div>

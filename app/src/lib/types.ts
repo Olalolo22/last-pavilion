@@ -1,7 +1,7 @@
 export interface Nation {
   id: number;
   name: string;
-  emoji: string;
+  icon: string; // lucide-react icon name
   tagline: string;
   color: string;
   meter: number; // 0 - 1000
@@ -42,7 +42,7 @@ export interface ActivityEvent {
   type: 'SUPPORT' | 'ELIMINATION' | 'REFUND' | 'SETTLEMENT';
   nationId?: number;
   nationName?: string;
-  emoji?: string;
+  icon?: string; // lucide-react icon name
   player: string;
   amount?: number;
   message: string;
