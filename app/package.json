@@ -1,0 +1,34 @@
+{
+  "name": "last-pavilion-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.31.0",
+    "@next/swc-wasm-nodejs": "14.2.13",
+    "@solana/wallet-adapter-base": "^0.9.23",
+    "@solana/wallet-adapter-phantom": "^0.9.24",
+    "@solana/wallet-adapter-react": "^0.15.35",
+    "@solana/wallet-adapter-react-ui": "^0.9.35",
+    "@solana/web3.js": "^1.98.0",
+    "canvas-confetti": "^1.9.4",
+    "lucide-react": "^0.469.0",
+    "next": "14.2.13",
+    "react": "^18",
+    "react-dom": "^18",
+    "text-encoding-utf-8": "^1.0.2",
+    "ws": "^8.22.0"
+  },
+  "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^5"
+  }
+}

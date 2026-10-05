@@ -1,0 +1,26 @@
+# Build outputs
+target/
+.anchor/
+dist/
+.next/
+
+# Dependencies
+node_modules/
+app/node_modules/
+
+# Solana keypairs / secrets
+*.pem
+id.json
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env files
+.env
+.env.local
+.env*.local
