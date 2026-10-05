@@ -43,7 +43,7 @@ export function SettlementModal() {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-300">
-      <div className="glass-panel w-full max-w-xl p-6 sm:p-8 bg-slate-950/95 border border-amber-500/50 shadow-[0_0_60px_rgba(245,158,11,0.3)] relative overflow-hidden flex flex-col items-center text-center">
+      <div className="glass-panel w-full max-w-xl p-5 sm:p-8 bg-slate-950/95 border border-amber-500/50 shadow-[0_0_60px_rgba(245,158,11,0.3)] relative overflow-hidden flex flex-col items-center text-center max-h-[90vh] overflow-y-auto">
         {/* Decorative Top Accent */}
         <div className="w-32 h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent rounded-full mb-6" />
 

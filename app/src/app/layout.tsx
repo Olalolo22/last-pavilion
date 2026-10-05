@@ -16,6 +16,13 @@ export const metadata: Metadata = {
   ],
 };
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: '#05070c',
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -23,7 +30,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className="antialiased">{children}</body>
+      <body className="antialiased min-w-[320px]">{children}</body>
     </html>
   );
 }

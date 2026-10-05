@@ -193,13 +193,13 @@ export function NationCard({ nation }: NationCardProps) {
           canClaimRefund ? (
             <button
               onClick={handleClaimRefund}
-              className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-mono font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all transform active:scale-95"
+              className="w-full min-h-[44px] py-2.5 px-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-mono font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-all transform active:scale-95"
             >
               <Zap size={14} className="fill-white" />
               CLAIM +{potentialRefund} INFLUENCE REFUND
             </button>
           ) : (
-            <div className="w-full py-2 px-3 text-center text-xs font-mono text-slate-500 bg-white/[0.02] rounded-xl border border-white/5">
+            <div className="w-full min-h-[44px] py-2 px-3 text-center text-xs font-mono text-slate-500 bg-white/[0.02] rounded-xl border border-white/5 flex items-center justify-center">
               {hasClaimedRefund ? 'REFUND CREDITED' : 'PAVILION EXTINCT'}
             </div>
           )
@@ -211,7 +211,7 @@ export function NationCard({ nation }: NationCardProps) {
               player.influenceRemaining < 10 ||
               cooldownRemaining > 0
             }
-            className={`w-full py-2.5 px-4 rounded-xl font-mono font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all relative overflow-hidden transform active:scale-95 ${
+            className={`w-full min-h-[44px] py-2.5 px-4 rounded-xl font-mono font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all relative overflow-hidden transform active:scale-95 ${
               player.influenceRemaining < 10
                 ? 'bg-slate-800 text-slate-500 cursor-not-allowed border border-white/5'
                 : cooldownRemaining > 0
