@@ -44,25 +44,19 @@ export default function LandingPage() {
           A multiplayer survival attraction where everyone decides which ideals survive
           Crypto&apos;s World Fair.
         </p>
+        <div className="landing-briefing" aria-label="How the arena works">
+          <div><b>01</b><span><strong>PLEDGE</strong>Choose 1 of 8 crypto philosophies to defend at the World&apos;s Fair.</span></div>
+          <div><b>02</b><span><strong>DEFEND</strong>Pavilions continuously bleed light. Spend 10 Influence to inject +50 meter before the extinction clock hits zero.</span></div>
+          <div><b>03</b><span><strong>ADAPT</strong>Every fallen nation accelerates drain on the survivors (+4/sec). Backers of extinct nations receive a 30 Influence refund to pivot their allegiance.</span></div>
+          <div><b>04</b><span><strong>SETTLE</strong>The sole surviving pavilion commits permanently into Solana history.</span></div>
+        </div>
         <Link className="enter-button" href="/fair">
-          ENTER THE FAIR <span aria-hidden="true">→</span>
+          ENTER THE FAIR ARENA <span aria-hidden="true">→</span>
         </Link>
         <p className="landing-footnote">
           Built on Solana <span>·</span> Powered by MagicBlock
         </p>
       </section>
-
-      <div className="landing-story" aria-label="How the attraction works">
-        <span>
-          <b>01</b> Choose a nation
-        </span>
-        <span>
-          <b>02</b> Spend Influence
-        </span>
-        <span>
-          <b>03</b> Keep it alive
-        </span>
-      </div>
     </main>
   );
 }

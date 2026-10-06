@@ -30,6 +30,10 @@ export function NationGrid() {
         </div>
       </div>
 
+      <div className="mission-banner" role="note">
+        <strong>MISSION:</strong> Defend your chosen pavilion. Spend Influence (+50 meter) before the countdown reaches 00:00. Every elimination accelerates drain on survivors (+4/s). Sole survivor commits to Solana.
+      </div>
+
       <div className="alive-count">
         <span className="live-dot" /> {round.aliveNationsCount} PAVILIONS ALIVE{' '}
         <span>·</span> CHOOSE ONE TO SUPPORT

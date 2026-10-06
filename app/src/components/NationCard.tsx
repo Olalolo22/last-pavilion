@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Clock, Zap, RotateCcw } from 'lucide-react';
 import { Nation } from '../lib/types';
 import { useGame } from '../context/GameContext';
@@ -17,13 +17,15 @@ export function NationCard({ nation }: { nation: Nation }) {
     isFastMode,
   } = useGame();
 
+  const [surging, setSurging] = useState(false);
+  const [showGain, setShowGain] = useState(false);
   const eliminated = nation.isEliminated;
-  const critical = !eliminated && nation.meter <= 250;
+  const drain = round.currentDrainRate * (isFastMode ? 3 : 1);
+  const seconds = drain ? Math.ceil(nation.meter / drain) : 0;
+  const critical = !eliminated && (nation.meter / METER_CAPACITY < 0.2 || seconds < 15);
   const selected = player.selectedNationId === nation.id;
   const percent = Math.max(0, Math.min(100, (nation.meter / METER_CAPACITY) * 100));
 
-  const drain = round.currentDrainRate * (isFastMode ? 3 : 1);
-  const seconds = drain ? Math.ceil(nation.meter / drain) : 0;
   const time = `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(
     seconds % 60
   ).padStart(2, '0')}`;
@@ -52,7 +54,27 @@ export function NationCard({ nation }: { nation: Nation }) {
   const handleSupport = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (eliminated) return;
-    supportNation(nation.id);
+    const supported = supportNation(nation.id);
+    if (supported) {
+      setSurging(true);
+      setShowGain(true);
+      window.setTimeout(() => setSurging(false), 500);
+      window.setTimeout(() => setShowGain(false), 700);
+      try {
+        const AudioContextClass = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+        if (AudioContextClass) {
+          const audio = new AudioContextClass();
+          const oscillator = audio.createOscillator();
+          const gain = audio.createGain();
+          oscillator.frequency.value = 640;
+          gain.gain.setValueAtTime(0.04, audio.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audio.currentTime + 0.12);
+          oscillator.connect(gain).connect(audio.destination);
+          oscillator.start();
+          oscillator.stop(audio.currentTime + 0.12);
+        }
+      } catch { /* audio is progressive enhancement */ }
+    }
   };
 
   const handleClaimRefund = (e: React.MouseEvent) => {
@@ -71,15 +93,17 @@ export function NationCard({ nation }: { nation: Nation }) {
       <div className="pavilion-top">
         <span className="pavilion-icon">{nation.emoji}</span>
         <span className="pavilion-status">
-          {eliminated ? 'FALLEN' : critical ? 'CRITICAL' : 'ALIVE'}
+          {eliminated ? 'FALLEN' : critical ? `⚠️ ${time} TO EXTINCTION` : 'ALIVE'}
         </span>
       </div>
 
       <h2>{nation.name}</h2>
+      {eliminated && <p className="fallen-stamp">EXTINCT / COMMITTED TO BASE LAYER</p>}
 
-      <div className="meter-line">
+      <div className={`meter-line ${surging ? 'is-surging' : ''}`}>
         <span style={{ width: `${percent}%` }} />
       </div>
+      {showGain && <span className="floating-gain" aria-live="polite">+50</span>}
 
       <div className="pavilion-meta">
         <span>
