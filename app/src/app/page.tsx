@@ -1,56 +1,35 @@
 'use client';
 
-import React from 'react';
-import { GameProvider } from '../context/GameContext';
-import { Navbar } from '../components/Navbar';
-import { WorldFairHeader } from '../components/WorldFairHeader';
-import { NationGrid } from '../components/NationGrid';
-import { EliminationAlert } from '../components/EliminationAlert';
-import { SettlementModal } from '../components/SettlementModal';
-import { ActivityFeed } from '../components/ActivityFeed';
-import { DemoControls } from '../components/DemoControls';
+import Link from 'next/link';
+import { INITIAL_NATIONS } from '../lib/nations';
 
-export default function Home() {
+export default function LandingPage() {
   return (
-    <GameProvider>
-      <main className="min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-black">
-        {/* Top Navigation */}
-        <Navbar />
-
-        {/* Demo Fast/Simulation Controls */}
-        <DemoControls />
-
-        {/* Active Elimination Banner Overlay */}
-        <EliminationAlert />
-
-        {/* Hero Section */}
-        <WorldFairHeader />
-
-        {/* 8 Nations Grid */}
-        <NationGrid />
-
-        {/* Live Event Stream */}
-        <ActivityFeed />
-
-        {/* Settlement Modal Triggered on Winner */}
-        <SettlementModal />
-
-        {/* World Fair Footer */}
-        <footer className="w-full border-t border-white/5 py-8 mt-12 bg-slate-950/80 text-center text-xs font-mono text-slate-500">
-          <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <span>🏛️ THE LAST PAVILION</span>
-              <span>•</span>
-              <span className="text-slate-400">CRYPTO'S WORLD FAIR</span>
-            </div>
-            <div>
-              Built for <strong className="text-slate-300">MagicBlock Blitz 9</strong> · Powered by{' '}
-              <span className="text-cyan-400 font-semibold">MagicBlock Ephemeral Rollups</span> &{' '}
-              <span className="text-amber-400 font-semibold">Solana L1</span>
-            </div>
+    <main className="landing-shell">
+      <div className="landing-grid" aria-hidden="true">
+        {INITIAL_NATIONS.map((nation, index) => (
+          <div key={nation.id} className="landing-beacon" style={{ '--nation-color': nation.color, '--delay': `${index * 0.45}s` } as React.CSSProperties}>
+            <span>{nation.emoji}</span><i />
           </div>
-        </footer>
-      </main>
-    </GameProvider>
+        ))}
+      </div>
+      <header className="landing-nav">
+        <span className="brand-mark">THE LAST PAVILION</span>
+        <span className="nav-note">CRYPTO&apos;S WORLD FAIR / ROUND 42</span>
+      </header>
+      <section className="landing-hero">
+        <p className="eyebrow">A LIVE SURVIVAL ATTRACTION</p>
+        <h1>Eight nations enter.<br /><em>One survives.</em></h1>
+        <p className="landing-copy">A multiplayer survival attraction where everyone decides which ideals survive Crypto&apos;s World Fair.</p>
+        <Link className="enter-button" href="/fair">ENTER THE FAIR <span aria-hidden="true">→</span></Link>
+        <p className="landing-footnote">Built on Solana <span>·</span> Powered by MagicBlock</p>
+      </section>
+      <div className="landing-story" aria-label="How the attraction works">
+        <span><b>01</b> Choose a nation</span><span><b>02</b> Spend Influence</span><span><b>03</b> Keep it alive</span>
+      </div>
+    </main>
   );
 }
+
+import React from 'react';
+

@@ -5,27 +5,10 @@ import { useGame } from '../context/GameContext';
 import { NationCard } from './NationCard';
 
 export function NationGrid() {
-  const { round } = useGame();
-
-  return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-base sm:text-lg font-bold font-['Cinzel'] tracking-wide text-white uppercase flex items-center gap-2">
-          <span>THE EIGHT COMPETING PAVILIONS</span>
-          <span className="text-xs font-mono font-normal text-slate-400">
-            (Select and intervene)
-          </span>
-        </h2>
-        <span className="text-xs font-mono text-amber-400/80">
-          Costs 10 Influence per click
-        </span>
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {round.nations.map((nation) => (
-          <NationCard key={nation.id} nation={nation} />
-        ))}
-      </div>
-    </div>
-  );
+  const { round, player } = useGame();
+  return <section className="game-stage" aria-label="The eight nations">
+    <div className="stage-heading"><div><p className="eyebrow">THE LAST PAVILION</p><h1>Eight nations. <em>One survives.</em></h1></div><div className="influence"><span>YOUR INFLUENCE</span><strong>{player.influenceRemaining}</strong><i><b style={{ width: `${player.influenceRemaining}%` }} /></i></div></div>
+    <div className="alive-count"><span className="live-dot" /> {round.aliveNationsCount} PAVILIONS ALIVE <span>·</span> CHOOSE ONE TO SUPPORT</div>
+    <div className="nation-grid">{round.nations.map((nation) => <NationCard key={nation.id} nation={nation} />)}</div>
+  </section>;
 }
