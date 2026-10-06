@@ -90,7 +90,7 @@ export function SettlementModal() {
             <div className="text-[10px] text-slate-500 uppercase">SETTLEMENT</div>
             <div className="text-lg sm:text-xl font-bold text-emerald-400 flex items-center gap-1">
               <CheckCircle size={15} />
-              SOLANA L1
+              SOLANA
             </div>
           </div>
         </div>
@@ -106,7 +106,7 @@ export function SettlementModal() {
                 MagicBlock Ephemeral Rollup
               </div>
               <div className="text-[10px] text-slate-400 font-mono">
-                Sub-block state executed in TEE · Atomically committed to Solana L1
+                Native Solana state delegation · Sub-second TEE execution · Settled on Solana
               </div>
             </div>
           </div>

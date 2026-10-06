@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
-import { Nation, RoundState, PlayerState, ActivityEvent } from '../lib/types';
+import { Nation, RoundState, RoundStatus, PlayerState, ActivityEvent } from '../lib/types';
 import { INITIAL_NATIONS } from '../lib/nations';
 import {
   METER_CAPACITY,
@@ -166,7 +166,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
 
         // Check if only 1 nation remains standing
         let winnerId: number | null = null;
-        let finalStatus = prevRound.status;
+        let finalStatus: RoundStatus = prevRound.status;
         if (newAliveCount <= 1) {
           finalStatus = 'SETTLED';
           const survivor = updatedNations.find((n) => !n.isEliminated);
@@ -177,8 +177,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
             nationId: winnerId,
             nationName: updatedNations[winnerId].name,
             icon: updatedNations[winnerId].icon,
-            player: 'SOLANA L1',
-            message: `${updatedNations[winnerId].name.toUpperCase()} IS THE LAST PAVILION! Round ${prevRound.roundId} settled on Solana L1.`,
+            player: 'SOLANA',
+            message: `${updatedNations[winnerId].name.toUpperCase()} IS THE LAST PAVILION! Round ${prevRound.roundId} settled on Solana.`,
           });
         }
 

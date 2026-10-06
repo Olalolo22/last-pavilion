@@ -78,11 +78,11 @@ export function WorldFairHeader() {
               03
             </div>
             <h4 className="text-sm font-bold text-white font-['Cinzel'] tracking-wide">
-              Death Refunds & L1 Settle
+              Death Refunds & Settlement
             </h4>
           </div>
           <p className="text-xs text-slate-400 leading-relaxed font-sans">
-            When a pavilion dies, survivors drain +4/s faster. Supporters recover Influence from a <strong className="text-purple-300">30 refund pool</strong>. Sole survivor commits to Solana L1.
+            When a pavilion dies, survivors drain +4/s faster. Supporters recover Influence from a <strong className="text-purple-300">30 refund pool</strong>. Sole survivor commits permanently on Solana.
           </p>
         </div>
       </div>

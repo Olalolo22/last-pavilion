@@ -47,8 +47,8 @@ export default function Home() {
             </div>
             <div>
               Built for <strong className="text-slate-300">MagicBlock Blitz 9</strong> · Powered by{' '}
-              <span className="text-cyan-400 font-semibold">MagicBlock Ephemeral Rollups</span> &{' '}
-              <span className="text-amber-400 font-semibold">Solana L1</span>
+              <span className="text-cyan-400 font-semibold">MagicBlock Ephemeral Rollups</span> on{' '}
+              <span className="text-amber-400 font-semibold">Solana</span>
             </div>
           </div>
         </footer>
