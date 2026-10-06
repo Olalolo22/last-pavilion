@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { Skull, AlertTriangle, X } from 'lucide-react';
+import { NationIcon } from './NationIcon';
 
 export function EliminationAlert() {
   const { lastEliminatedNation, dismissEliminationAlert, round } = useGame();
@@ -21,7 +22,7 @@ export function EliminationAlert() {
     <div className="fixed top-24 left-1/2 transform -translate-x-1/2 z-50 w-11/12 max-w-lg animate-in fade-in slide-in-from-top-6 duration-300">
       <div className="glass-panel p-4 bg-red-950/95 border border-red-500/80 shadow-[0_0_40px_rgba(239,68,68,0.6)] flex items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-red-500/20 border border-red-500/50 flex items-center justify-center text-2xl flex-shrink-0 animate-bounce">
+          <div className="w-12 h-12 rounded-xl bg-red-500/20 border border-red-500/50 flex items-center justify-center flex-shrink-0 animate-bounce">
             <Skull className="text-red-400" size={24} />
           </div>
           <div>
@@ -34,8 +35,13 @@ export function EliminationAlert() {
                 DRAIN ACCELERATED
               </span>
             </div>
-            <h4 className="text-base sm:text-lg font-black text-white font-['Cinzel'] tracking-wide">
-              {lastEliminatedNation.emoji} {lastEliminatedNation.name.toUpperCase()} HAS FALLEN!
+            <h4 className="text-base sm:text-lg font-black text-white font-['Cinzel'] tracking-wide flex items-center gap-2">
+              <NationIcon
+                name={lastEliminatedNation.icon}
+                size={18}
+                style={{ color: lastEliminatedNation.color }}
+              />
+              {lastEliminatedNation.name.toUpperCase()} HAS FALLEN!
             </h4>
             <p className="text-xs text-red-200/80 font-mono mt-0.5">
               Surviving pavilions now drain at{' '}

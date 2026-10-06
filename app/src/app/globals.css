@@ -3,6 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 :root { --ink:#11110f; --paper:#f1eee7; --muted:#817d73; --brass:#b18a4a; --line:rgba(241,238,231,.16); }
+.glass-panel { background: rgba(26, 25, 22, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6); }
 * { box-sizing:border-box; margin:0; padding:0; }
 body { background:var(--ink); color:var(--paper); font-family:'DM Sans',sans-serif; min-width:320px; }
 button,a { font:inherit; }

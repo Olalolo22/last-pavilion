@@ -58,7 +58,7 @@ pub fn handler(ctx: Context<SettleRound>, round_id: u64) -> Result<()> {
     record.bump = ctx.bumps.settlement_record;
 
     msg!(
-        "Committing Round {} state to Solana L1. Winner: Nation {}, Actions: {}, Duration: {}s",
+        "Committing and undelegating Round {} to Solana. Winner: Nation {}, Actions: {}, Duration: {}s",
         round_id,
         round.winner_nation_id,
         round.total_actions,
@@ -74,6 +74,6 @@ pub fn handler(ctx: Context<SettleRound>, round_id: u64) -> Result<()> {
     .commit_and_undelegate(&[ctx.accounts.round_state.to_account_info()])
     .build_and_invoke()?;
 
-    msg!("Round {} successfully committed and settled on Solana L1!", round_id);
+    msg!("Round {} successfully committed and settled on Solana!", round_id);
     Ok(())
 }

@@ -1,6 +1,5 @@
 use anchor_lang::prelude::*;
 use crate::state::{RoundState, RoundStatus, ACCELERATION_PER_DEATH};
-use crate::errors::PavilionError;
 
 #[derive(Accounts)]
 #[instruction(round_id: u64)]

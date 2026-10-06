@@ -58,7 +58,7 @@ pub fn handle_initialize(ctx: Context<InitializeRound>, round_id: u64) -> Result
         authority: ctx.accounts.authority.key(),
     });
 
-    msg!("Round {} initialized on Solana L1", round_id);
+    msg!("Round {} initialized on Solana", round_id);
     Ok(())
 }
 

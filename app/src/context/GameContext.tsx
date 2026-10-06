@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
-import { Nation, RoundState, PlayerState, ActivityEvent } from '../lib/types';
+import { Nation, RoundState, RoundStatus, PlayerState, ActivityEvent } from '../lib/types';
 import { INITIAL_NATIONS } from '../lib/nations';
 import {
   METER_CAPACITY,
@@ -64,10 +64,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       type: 'SUPPORT',
       nationId: 0,
       nationName: 'Velocity',
-      emoji: '⚡',
+      icon: 'Zap',
       player: 'Sol...9a2K',
       amount: 10,
-      message: 'Supported ⚡ Velocity (+50)',
+      message: 'Supported Velocity (+50)',
       timestamp: Date.now() - 4000,
     },
     {
@@ -75,10 +75,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       type: 'SUPPORT',
       nationId: 1,
       nationName: 'Shadow',
-      emoji: '🔒',
+      icon: 'Lock',
       player: 'Anon...3f81',
       amount: 10,
-      message: 'Supported 🔒 Shadow (+50)',
+      message: 'Supported Shadow (+50)',
       timestamp: Date.now() - 2500,
     },
   ]);
@@ -158,15 +158,15 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
             type: 'ELIMINATION',
             nationId: (newlyEliminated as Nation).id,
             nationName: (newlyEliminated as Nation).name,
-            emoji: (newlyEliminated as Nation).emoji,
+            icon: (newlyEliminated as Nation).icon,
             player: 'WORLD FAIR',
-            message: `🏛️ ${(newlyEliminated as Nation).name.toUpperCase()} HAS FALLEN! Drain accelerated to −${newDrainRate}/sec`,
+            message: `${(newlyEliminated as Nation).name.toUpperCase()} HAS FALLEN. Drain accelerated to −${newDrainRate}/sec`,
           });
         }
 
         // Check if only 1 nation remains standing
         let winnerId: number | null = null;
-        let finalStatus = prevRound.status;
+        let finalStatus: RoundStatus = prevRound.status;
         if (newAliveCount <= 1) {
           finalStatus = 'SETTLED';
           const survivor = updatedNations.find((n) => !n.isEliminated);
@@ -176,9 +176,9 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
             type: 'SETTLEMENT',
             nationId: winnerId,
             nationName: updatedNations[winnerId].name,
-            emoji: updatedNations[winnerId].emoji,
-            player: 'SOLANA L1',
-            message: `🏆 ${updatedNations[winnerId].name.toUpperCase()} IS THE LAST PAVILION! Round ${prevRound.roundId} settled on Solana L1.`,
+            icon: updatedNations[winnerId].icon,
+            player: 'SOLANA',
+            message: `${updatedNations[winnerId].name.toUpperCase()} IS THE LAST PAVILION! Round ${prevRound.roundId} settled on Solana.`,
           });
         }
 
@@ -232,10 +232,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         type: 'SUPPORT',
         nationId: randomNation.id,
         nationName: randomNation.name,
-        emoji: randomNation.emoji,
+        icon: randomNation.icon,
         player: `Citizen...${randomPlayerSuffix}`,
         amount: SUPPORT_COST,
-        message: `Supported ${randomNation.emoji} ${randomNation.name} (+50)`,
+        message: `Supported ${randomNation.name} (+50)`,
       });
     }, isFastMode ? 700 : 2200);
 
@@ -294,10 +294,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         type: 'SUPPORT',
         nationId,
         nationName: targetNation.name,
-        emoji: targetNation.emoji,
+        icon: targetNation.icon,
         player: 'YOU (Citizen)',
         amount: SUPPORT_COST,
-        message: `Intervened for ${targetNation.emoji} ${targetNation.name} (+50)`,
+        message: `Intervened for ${targetNation.name} (+50)`,
       });
 
       return true;
@@ -335,10 +335,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         type: 'REFUND',
         nationId,
         nationName: nation.name,
-        emoji: nation.emoji,
+        icon: nation.icon,
         player: 'YOU (Citizen)',
         amount: refund,
-        message: `Claimed +${refund} Influence death refund from fallen ${nation.emoji} ${nation.name}`,
+        message: `Claimed +${refund} Influence death refund from fallen ${nation.name}`,
       });
     },
     [round.nations, player.refundsClaimed, player.influenceSpentPerNation, addActivity]

@@ -92,28 +92,23 @@ export function DemoControls() {
             <div className="space-y-4 text-xs sm:text-sm text-slate-300 leading-relaxed">
               <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
                 <strong className="text-cyan-400 block mb-1">
-                  1. Ephemeral Execution Layer (MagicBlock ER)
+                  1. Native State Delegation (Not an L2)
                 </strong>
-                The shared World Fair round state is delegated to a MagicBlock TEE validator.
-                Meters drain every second and player Support interventions execute with sub-50ms latency
-                and zero gas fees.
+                MagicBlock Ephemeral Rollups are not an L2. The round state is a native Solana account delegated to a MagicBlock TEE validator via CPI to the Delegation Program. There are no bridges, no wrapped tokens, and zero liquidity fragmentation.
               </div>
 
               <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
                 <strong className="text-amber-400 block mb-1">
-                  2. Dynamic Coordination Mechanics
+                  2. Sub-50ms Real-Time Gasless Loops
                 </strong>
-                Every player receives 100 Influence. Interventions cost 10 Influence and add +50 meter.
-                When a nation depletes, a 30 Influence refund pool is credited proportionally to its supporters,
-                creating emergent alliances and endgame consolidation.
+                While delegated, meters drain continuously and player Support interventions execute with sub-50ms latency and zero gas fees, making high-frequency coordination possible entirely within the Solana SVM.
               </div>
 
               <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
                 <strong className="text-emerald-400 block mb-1">
-                  3. Verifiable Solana L1 Finality
+                  3. Atomic Undelegation & Solana Settlement
                 </strong>
-                When only one nation remains, the ER commits a verifiable cryptographic proof back to Solana L1,
-                writing the permanent SettlementRecord into base layer storage.
+                When only one nation remains, the account atomically commits its final state and undelegates back to the Solana base layer, permanently storing the verifiable SettlementRecord on-chain.
               </div>
             </div>
 
