@@ -28,7 +28,7 @@ export function WorldFairHeader() {
       <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300 mb-6 leading-relaxed">
         Eight competing crypto ideals entered the fair. Their energy is draining continuously in a{' '}
         <strong className="text-cyan-400 font-semibold">MagicBlock Ephemeral Rollup</strong>.
-        Commit your finite Influence to preserve your philosophy. Last nation standing commits to Solana L1.
+        Commit your finite Influence to preserve your philosophy. Last nation standing commits permanently on Solana.
       </p>
 
       {/* Dynamic World Status Bar */}

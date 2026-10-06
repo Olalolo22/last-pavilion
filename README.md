@@ -1,6 +1,6 @@
-# 🏛️ The Last Pavilion
+# The Last Pavilion
 
-> **Multiplayer Survival Coordination on Solana & MagicBlock Ephemeral Rollups**  
+> **Multiplayer Survival Coordination on Solana via MagicBlock Ephemeral Rollups**  
 > *Built for MagicBlock Blitz 9 & Colosseum Crypto's World Fair · October 5–12, 2026*
 
 ---
@@ -11,19 +11,19 @@
 
 ---
 
-## ⚡ The 20-Second Hook
+## The 20-Second Hook
 
 Eight competing crypto ideals entered **Crypto's World Fair**. Their energy is draining continuously in real time.
 
 ```
-⚡ Velocity    63%  [████████████░░░░░░░░]  00:42 TO EXTINCTION
-🔒 Shadow      51%  [██████████░░░░░░░░░░]  00:31 TO EXTINCTION
-🏛️ Vault       44%  [████████░░░░░░░░░░░░]  00:26 TO EXTINCTION
-💧 Flow        38%  [███████░░░░░░░░░░░░░]  00:19 TO EXTINCTION
-🌐 Commons     29%  [█████░░░░░░░░░░░░░░░]  00:14 TO EXTINCTION
-🔥 Forge       22%  [████░░░░░░░░░░░░░░░░]  00:09 TO EXTINCTION
-⚖️ Council     14%  [██░░░░░░░░░░░░░░░░░░]  00:05 TO EXTINCTION [CRITICAL]
-🪨 Genesis     00%  [░░░░░░░░░░░░░░░░░░░░]  💥 FALLEN (REFUND POOL ACTIVE)
+Velocity    63%  [████████████░░░░░░░░]  00:42 TO EXTINCTION
+Shadow      51%  [██████████░░░░░░░░░░]  00:31 TO EXTINCTION
+Vault       44%  [████████░░░░░░░░░░░░]  00:26 TO EXTINCTION
+Flow        38%  [███████░░░░░░░░░░░░░]  00:19 TO EXTINCTION
+Commons     29%  [█████░░░░░░░░░░░░░░░]  00:14 TO EXTINCTION
+Forge       22%  [████░░░░░░░░░░░░░░░░]  00:09 TO EXTINCTION
+Council     14%  [██░░░░░░░░░░░░░░░░░░]  00:05 TO EXTINCTION [CRITICAL]
+Genesis     00%  [░░░░░░░░░░░░░░░░░░░░]  FALLEN (REFUND POOL ACTIVE)
 ```
 
 **Your nation is dying. Spend Influence to save it.**
@@ -32,37 +32,44 @@ When a nation hits zero, it is eliminated forever. Each elimination accelerates 
 
 ---
 
-## 🎪 Why MagicBlock Ephemeral Rollups?
+## Why MagicBlock Ephemeral Rollups?
 
-Traditional L1 blockchains cannot support continuously mutating shared state with sub-second feedback:
+Traditional block times cannot support continuously mutating shared state with sub-second feedback:
 
-| Feature | Base Solana L1 | The Last Pavilion (MagicBlock ER) |
+| Feature | Standard Solana Accounts | Delegated to MagicBlock ER |
 |---|---|---|
 | **Tick Frequency** | 400ms slot times (jittery for continuous drain) | **10–50ms sub-block execution** in TEE |
 | **Intervention Gas** | Transaction fees on every single tap | **Gasless player actions** via ephemeral session delegation |
 | **Real-Time Physics** | Congestion causes delayed state updates | **Deterministic continuous meter drain** at 1-second granularity |
-| **State Finality** | High write load bloats base ledger history | **Transient competition in ER** · **Only the finale commits to L1** |
+| **State Finality** | High write load bloats base ledger history | **Transient competition in ER** · **Only the finale commits to Solana base layer** |
+
+> ⚡ **Not an L2 — Native Solana State Delegation:**  
+> MagicBlock is **not an L2 or a separate rollup chain**. The `RoundState` is a native Solana account. Through MagicBlock's Delegation Program, the account is temporarily delegated to a high-speed TEE validator for gasless, sub-second state transitions, then atomically committed and undelegated back on Solana.  
+> - **No bridges**  
+> - **No wrapped assets**  
+> - **No fragmented liquidity**  
+> Everything lives natively on Solana.
 
 ---
 
-## 🏛️ The Eight Pavilions
+## The Eight Pavilions
 
 Rather than dividing by chain logos, The Last Pavilion asks visitors to rally around competing foundational crypto ideals:
 
-| Emoji | Pavilion | Core Philosophy |
+| Icon | Pavilion | Core Philosophy |
 |---|---|---|
-| ⚡ | **Velocity** | Speed, sub-50ms execution, real-time interactivity |
-| 🔒 | **Shadow** | Confidentiality, zero-knowledge, individual privacy |
-| 🏛️ | **Vault** | Uncompromising self-custody, cryptographic ownership |
-| 💧 | **Flow** | Deep liquidity, capital efficiency, frictionless exchange |
-| 🌐 | **Commons** | Radical decentralization, open permissionless access |
-| 🔥 | **Forge** | Unstoppable innovation, composability, builder agency |
-| ⚖️ | **Council** | Scalable governance, dispute resolution, coordination |
-| 🪨 | **Genesis** | Immutable settlement, permanent history, hard security |
+| `Zap` | **Velocity** | Speed, sub-50ms execution, real-time interactivity |
+| `Lock` | **Shadow** | Confidentiality, zero-knowledge, individual privacy |
+| `Landmark` | **Vault** | Uncompromising self-custody, cryptographic ownership |
+| `Waves` | **Flow** | Deep liquidity, capital efficiency, frictionless exchange |
+| `Globe` | **Commons** | Radical decentralization, open permissionless access |
+| `Flame` | **Forge** | Unstoppable innovation, composability, builder agency |
+| `Scale` | **Council** | Scalable governance, dispute resolution, coordination |
+| `Hexagon` | **Genesis** | Immutable settlement, permanent history, hard security |
 
 ---
 
-## 🎮 Game Mechanics & Invariants
+## Game Mechanics & Invariants
 
 The game specification enforces **strict compression**: zero new vocabulary is required before the player's first action.
 
@@ -85,7 +92,7 @@ The game specification enforces **strict compression**: zero new vocabulary is r
 
 ---
 
-## 📐 System Architecture
+## System Architecture
 
 ```mermaid
 flowchart TD
@@ -101,7 +108,7 @@ flowchart TD
         RefundIX["claim_death_refund (Pool: 30)"]
     end
 
-    subgraph L1["Solana Base Layer (Devnet/Mainnet)"]
+    subgraph Solana["Solana Base Layer"]
         Program["last_pavilion Program"]
         SettlementPDA["Permanent SettlementRecord PDA"]
         DLP["MagicBlock Delegation Program"]
@@ -116,20 +123,20 @@ flowchart TD
 
     Program -->|Delegate Account| DLP
     DLP -.->|Transfer Ownership| ER
-    RoundPDA -->|2. Last Nation Survivor| L1
-    L1 -->|Commit Proof & Undelegate| SettlementPDA
+    RoundPDA -->|2. Last Nation Survivor| Solana
+    Solana -->|Commit Proof & Undelegate| SettlementPDA
 ```
 
-1. **`open_round` (Solana L1):** Creates the `RoundState` PDA and invokes CPI to the MagicBlock Delegation Program to delegate custody to the TEE validator.
-2. **`support_nation` & `drain_tick` (MagicBlock ER):** High-frequency state mutation runs gaslessly at sub-second speeds.
-3. **`settle_round` (MagicBlock ER $\rightarrow$ Solana L1):** Once only one pavilion survives, `MagicIntentBundleBuilder::commit_and_undelegate` commits the permanent `SettlementRecord` back to Solana base layer storage.
+1. **`initialize_round` & `delegate_round` (Solana):** Creates the `RoundState` PDA and invokes CPI to the MagicBlock Delegation Program to delegate custody to the TEE validator.
+2. **`support_nation` & `drain_tick` (MagicBlock ER):** High-frequency state mutation runs gaslessly at sub-second speeds within the delegated TEE.
+3. **`settle_round` (Undelegate to Solana):** Once only one pavilion survives, `MagicIntentBundleBuilder::commit_and_undelegate` commits the permanent `SettlementRecord` back to Solana base layer storage.
 
 ---
 
-## 🚀 Quickstart
+## Quickstart
 
 ### Prerequisites
-- Node.js 18+ & npm
+- Node.js 18+ & npm / bun
 - Rust & Cargo (1.75+)
 - Solana CLI & Anchor 0.29+
 
@@ -139,17 +146,17 @@ git clone https://github.com/Olalolo22/last-pavilion.git
 cd last-pavilion
 
 # Install web app dependencies
-cd app && npm install
+cd app && bun install
 ```
 
 ### 2. Run Web Application
 ```bash
-npm run dev
+bun dev
 ```
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-- **Fast Demo Mode:** Append `?speed=fast` to simulate the entire 6–8 minute tension curve in under 60 seconds for live demos.
-- **Crowd Frenzy:** Toggle crowd simulation to watch dozens of citizens competing simultaneously.
+- **Fast Demo Mode:** Append `?speed=fast` to simulate the entire tension curve in under 60 seconds for live demos.
+- **Crowd Simulation:** Toggle crowd simulation from the bottom-right floating demo dock.
 
 ### 3. Anchor Program Build
 ```bash
@@ -159,18 +166,19 @@ cargo check --manifest-path programs/last-pavilion/Cargo.toml
 
 ---
 
-## 📜 Program Instructions
+## Program Instructions
 
-| Instruction | Target Layer | Description |
+| Instruction | Execution Context | Description |
 |---|---|---|
-| `open_round` | Solana L1 | Initialises round and delegates PDA to MagicBlock TEE validator |
-| `join_round` | MagicBlock ER | Registers player and allocates 100 Influence |
+| `initialize_round` | Solana Base | Initialises `RoundState` account on Solana |
+| `delegate_round` | Solana Base | Invokes CPI to Delegation Program to delegate PDA to MagicBlock TEE |
+| `join_round` | MagicBlock ER | Registers player and allocates 100 Influence (gasless) |
 | `support_nation` | MagicBlock ER | Spends 10 Influence, adds +50 meter (enforces 1s cooldown) |
 | `drain_tick` | MagicBlock ER | Drains meters, eliminates depleted pavilions, accelerates drain rate |
 | `claim_death_refund` | MagicBlock ER | Claims proportional share of 30 Influence refund pool |
-| `settle_round` | ER $\rightarrow$ L1 | Writes permanent `SettlementRecord` and commits back to Solana L1 |
+| `settle_round` | ER $\rightarrow$ Solana | Commits final state and undelegates back to Solana base storage |
 
 ---
 
-## ⚖️ License
+## License
 MIT License. Built with passion for **MagicBlock Blitz 9** (2026).

@@ -12,7 +12,7 @@ declare_id!("38iyWaZXa4nAZZxGYEGA6GqXhWE5g1dPt9ht9iFcxo63");
 pub mod last_pavilion {
     use super::*;
 
-    /// Initialize a new World's Fair round on Solana L1.
+    /// Initialize a new World's Fair round on Solana.
     pub fn initialize_round(ctx: Context<InitializeRound>, round_id: u64) -> Result<()> {
         instructions::open_round::handle_initialize(ctx, round_id)
     }
@@ -48,8 +48,8 @@ pub mod last_pavilion {
         instructions::claim_death_refund::handler(ctx, round_id, nation_id)
     }
 
-    /// Settle the round when 1 nation remains, write permanent record to Solana L1,
-    /// and commit / undelegate state back from MagicBlock ER.
+    /// Settle the round when 1 nation remains, write permanent record on Solana,
+    /// and commit / undelegate state back from the MagicBlock ER.
     pub fn settle_round(ctx: Context<SettleRound>, round_id: u64) -> Result<()> {
         instructions::settle_round::handler(ctx, round_id)
     }
