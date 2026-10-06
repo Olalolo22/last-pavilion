@@ -3,7 +3,6 @@
 import React from 'react';
 import Link from 'next/link';
 import { INITIAL_NATIONS } from '../lib/nations';
-import { NationIcon } from '../components/NationIcon';
 
 export default function LandingPage() {
   return (
@@ -22,7 +21,7 @@ export default function LandingPage() {
             }
           >
             <span>
-              <NationIcon name={nation.icon} size={26} />
+              {nation.emoji}
             </span>
             <i />
           </div>

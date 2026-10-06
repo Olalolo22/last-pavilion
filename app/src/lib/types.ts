@@ -1,8 +1,8 @@
 export interface Nation {
   id: number;
   name: string;
-  emoji?: string;
-  icon: string;
+  emoji: string;
+  icon?: string;
   tagline: string;
   color: string;
   meter: number; // 0 - 1000

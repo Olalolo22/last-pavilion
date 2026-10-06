@@ -3,7 +3,6 @@
 import React, { useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { Skull, AlertTriangle, X } from 'lucide-react';
-import { NationIcon } from './NationIcon';
 
 export function EliminationAlert() {
   const { lastEliminatedNation, dismissEliminationAlert, round } = useGame();
@@ -36,11 +35,7 @@ export function EliminationAlert() {
               </span>
             </div>
             <h4 className="text-base sm:text-lg font-black text-white font-['Cinzel'] tracking-wide flex items-center gap-2">
-              <NationIcon
-                name={lastEliminatedNation.icon}
-                size={18}
-                style={{ color: lastEliminatedNation.color }}
-              />
+              <span>{lastEliminatedNation.emoji}</span>
               {lastEliminatedNation.name.toUpperCase()} HAS FALLEN!
             </h4>
             <p className="text-xs text-red-200/80 font-mono mt-0.5">

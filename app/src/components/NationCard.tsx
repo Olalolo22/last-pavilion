@@ -5,7 +5,6 @@ import { Clock, Zap, RotateCcw } from 'lucide-react';
 import { Nation } from '../lib/types';
 import { useGame } from '../context/GameContext';
 import { METER_CAPACITY, DEATH_REFUND_POOL } from '../lib/constants';
-import { NationIcon } from './NationIcon';
 
 export function NationCard({ nation }: { nation: Nation }) {
   const {
@@ -70,9 +69,7 @@ export function NationCard({ nation }: { nation: Nation }) {
       onClick={() => selectNation(nation.id)}
     >
       <div className="pavilion-top">
-        <span className="pavilion-icon" style={{ color: nation.color }}>
-          <NationIcon name={nation.icon} size={24} />
-        </span>
+        <span className="pavilion-icon">{nation.emoji}</span>
         <span className="pavilion-status">
           {eliminated ? 'FALLEN' : critical ? 'CRITICAL' : 'ALIVE'}
         </span>

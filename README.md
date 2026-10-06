@@ -56,16 +56,16 @@ Traditional block times cannot support continuously mutating shared state with s
 
 Rather than dividing by chain logos, The Last Pavilion asks visitors to rally around competing foundational crypto ideals:
 
-| Icon | Pavilion | Core Philosophy |
+| Emoji | Pavilion | Core Philosophy |
 |---|---|---|
-| `Zap` | **Velocity** | Speed, sub-50ms execution, real-time interactivity |
-| `Lock` | **Shadow** | Confidentiality, zero-knowledge, individual privacy |
-| `Landmark` | **Vault** | Uncompromising self-custody, cryptographic ownership |
-| `Waves` | **Flow** | Deep liquidity, capital efficiency, frictionless exchange |
-| `Globe` | **Commons** | Radical decentralization, open permissionless access |
-| `Flame` | **Forge** | Unstoppable innovation, composability, builder agency |
-| `Scale` | **Council** | Scalable governance, dispute resolution, coordination |
-| `Hexagon` | **Genesis** | Immutable settlement, permanent history, hard security |
+| ⚡ | **Velocity** | Speed, sub-50ms execution, real-time interactivity |
+| 🔒 | **Shadow** | Confidentiality, zero-knowledge, individual privacy |
+| 🏛️ | **Vault** | Uncompromising self-custody, cryptographic ownership |
+| 💧 | **Flow** | Deep liquidity, capital efficiency, frictionless exchange |
+| 🌐 | **Commons** | Radical decentralization, open permissionless access |
+| 🔥 | **Forge** | Unstoppable innovation, composability, builder agency |
+| ⚖️ | **Council** | Scalable governance, dispute resolution, coordination |
+| 🪨 | **Genesis** | Immutable settlement, permanent history, hard security |
 
 ---
 
