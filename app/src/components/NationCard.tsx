@@ -5,7 +5,6 @@ import { Nation } from '../lib/types';
 import { useGame } from '../context/GameContext';
 import { Zap, Skull, ShieldAlert, Award, Clock } from 'lucide-react';
 import { METER_CAPACITY, DEATH_REFUND_POOL } from '../lib/constants';
-import { NationIcon } from './NationIcon';
 
 interface NationCardProps {
   nation: Nation;
@@ -88,15 +87,14 @@ export function NationCard({ nation }: NationCardProps) {
         <div className="flex items-start justify-between gap-3 mb-2">
           <div className="flex items-center gap-3">
             <div
-              className="w-11 h-11 rounded-xl flex items-center justify-center border flex-shrink-0 transition-transform group-hover:scale-105"
+              className="w-11 h-11 rounded-xl flex items-center justify-center border flex-shrink-0 transition-transform group-hover:scale-105 text-2xl"
               style={{
                 backgroundColor: isEliminated ? 'rgba(255,255,255,0.03)' : `${nation.color}18`,
                 borderColor: isEliminated ? 'rgba(255,255,255,0.08)' : `${nation.color}45`,
-                color: isEliminated ? '#64748b' : nation.color,
                 boxShadow: !isEliminated ? `0 0 15px ${nation.color}25` : undefined,
               }}
             >
-              <NationIcon name={nation.icon} size={22} />
+              {nation.emoji}
             </div>
             <div>
               <h3 className="text-lg font-black text-white font-['Cinzel'] tracking-wide flex items-center gap-2">

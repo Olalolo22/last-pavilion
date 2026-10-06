@@ -3,7 +3,6 @@
 import React from 'react';
 import { useGame } from '../context/GameContext';
 import { Radio } from 'lucide-react';
-import { NationIcon } from './NationIcon';
 
 export function ActivityFeed() {
   const { activityFeed } = useGame();
@@ -28,19 +27,7 @@ export function ActivityFeed() {
               className="flex items-center justify-between py-1.5 px-3 rounded-lg bg-white/[0.02] border border-white/5 text-xs font-mono hover:bg-white/[0.04] transition-colors"
             >
               <div className="flex items-center gap-2.5 truncate">
-                <NationIcon
-                  name={event.icon || 'Zap'}
-                  size={13}
-                  className={
-                    event.type === 'ELIMINATION'
-                      ? 'text-red-400 flex-shrink-0'
-                      : event.type === 'REFUND'
-                      ? 'text-purple-400 flex-shrink-0'
-                      : event.type === 'SETTLEMENT'
-                      ? 'text-amber-400 flex-shrink-0'
-                      : 'text-cyan-400 flex-shrink-0'
-                  }
-                />
+                <span className="text-sm">{event.emoji || '⚡'}</span>
                 <span className="text-slate-400 font-semibold truncate">
                   {event.player}:
                 </span>

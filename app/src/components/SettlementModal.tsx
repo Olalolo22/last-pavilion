@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { Award, CheckCircle, RefreshCw, ShieldCheck } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { NationIcon } from './NationIcon';
 
 export function SettlementModal() {
   const { round, resetRound } = useGame();
@@ -50,14 +49,13 @@ export function SettlementModal() {
 
         {/* Champion Badge */}
         <div
-          className="w-20 h-20 rounded-2xl flex items-center justify-center mb-4 shadow-[0_0_30px_rgba(245,158,11,0.3)] animate-pulse border-2"
+          className="w-20 h-20 rounded-2xl flex items-center justify-center mb-4 shadow-[0_0_30px_rgba(245,158,11,0.3)] animate-pulse border-2 text-5xl"
           style={{
             backgroundColor: `${winner.color}20`,
             borderColor: `${winner.color}60`,
-            color: winner.color,
           }}
         >
-          <NationIcon name={winner.icon} size={40} />
+          {winner.emoji}
         </div>
 
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-mono font-bold tracking-wider uppercase mb-2">

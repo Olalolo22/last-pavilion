@@ -4,6 +4,7 @@ export const INITIAL_NATIONS: Nation[] = [
   {
     id: 0,
     name: 'Velocity',
+    emoji: '⚡',
     icon: 'Zap',
     tagline: 'Speed / Real-Time Execution',
     color: '#00f0ff',
@@ -15,6 +16,7 @@ export const INITIAL_NATIONS: Nation[] = [
   {
     id: 1,
     name: 'Shadow',
+    emoji: '🔒',
     icon: 'Lock',
     tagline: 'Privacy / Confidentiality',
     color: '#a855f7',
@@ -26,6 +28,7 @@ export const INITIAL_NATIONS: Nation[] = [
   {
     id: 2,
     name: 'Vault',
+    emoji: '🏛️',
     icon: 'Landmark',
     tagline: 'Ownership / Self-Custody',
     color: '#f59e0b',
@@ -37,6 +40,7 @@ export const INITIAL_NATIONS: Nation[] = [
   {
     id: 3,
     name: 'Flow',
+    emoji: '💧',
     icon: 'Waves',
     tagline: 'Liquidity / Capital Velocity',
     color: '#0ea5e9',
@@ -48,6 +52,7 @@ export const INITIAL_NATIONS: Nation[] = [
   {
     id: 4,
     name: 'Commons',
+    emoji: '🌐',
     icon: 'Globe',
     tagline: 'Decentralization / Open Access',
     color: '#10b981',
@@ -59,6 +64,7 @@ export const INITIAL_NATIONS: Nation[] = [
   {
     id: 5,
     name: 'Forge',
+    emoji: '🔥',
     icon: 'Flame',
     tagline: 'Permissionless Innovation',
     color: '#f97316',
@@ -70,6 +76,7 @@ export const INITIAL_NATIONS: Nation[] = [
   {
     id: 6,
     name: 'Council',
+    emoji: '⚖️',
     icon: 'Scale',
     tagline: 'Coordination / Governance',
     color: '#f43f5e',
@@ -81,6 +88,7 @@ export const INITIAL_NATIONS: Nation[] = [
   {
     id: 7,
     name: 'Genesis',
+    emoji: '🪨',
     icon: 'Hexagon',
     tagline: 'Settlement / Permanence',
     color: '#94a3b8',
