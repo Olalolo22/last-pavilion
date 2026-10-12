@@ -1,184 +1,271 @@
 # The Last Pavilion
 
-> **Multiplayer Survival Coordination on Solana via MagicBlock Ephemeral Rollups**  
-> *Built for MagicBlock Blitz 9 & Colosseum Crypto's World Fair · October 5–12, 2026*
+**Your nation is dying. Save it.**
+
+Eight nations. One finite budget. An arena that gets more unforgiving with every elimination.
+
+The Last Pavilion is a multiplayer survival game built on Solana around scarce resources and escalating consequences. Spend Influence to keep your chosen nation alive, recover salvaged capital through a death refund when an alliance collapses, and watch the arena's remaining nations race toward extinction.
+
+Built for **MagicBlock Blitz 9 / Colosseum Crypto's World Fair**.
 
 ---
 
-[![Solana Devnet](https://img.shields.io/badge/Solana-Devnet-14F195?style=flat-square&logo=solana&logoColor=white)](https://solana.com)
-[![MagicBlock ER](https://img.shields.io/badge/MagicBlock-Ephemeral%20Rollups-00f0ff?style=flat-square)](https://magicblock.gg)
+[![Solana Devnet](https://img.shields.io/badge/Solana-Devnet-14F195?style=flat-square&logo=solana&logoColor=white)](https://explorer.solana.com/address/38iyWaZXa4nAZZxGYEGA6GqXhWE5g1dPt9ht9iFcxo63?cluster=devnet)
+[![Anchor 0.29](https://img.shields.io/badge/Anchor-0.29.0-black?style=flat-square)](https://coral-xyz.github.io/anchor/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-amber.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
 ---
 
 ## The 20-Second Hook
 
-Eight competing crypto ideals entered **Crypto's World Fair**. Their energy is draining continuously in real time.
+Eight competing crypto ideals enter the World's Fair arena:
 
+```text
+⚡ Velocity    63%  [████████████░░░░░░░░]  00:42 TO EXTINCTION
+🔒 Shadow      51%  [██████████░░░░░░░░░░]  00:31 TO EXTINCTION
+🏛️ Vault       44%  [████████░░░░░░░░░░░░]  00:26 TO EXTINCTION
+💧 Flow        38%  [███████░░░░░░░░░░░░░]  00:19 TO EXTINCTION
+🌐 Commons     29%  [█████░░░░░░░░░░░░░░░]  00:14 TO EXTINCTION
+🔥 Forge       22%  [████░░░░░░░░░░░░░░░░]  00:09 TO EXTINCTION
+⚖️ Council     14%  [██░░░░░░░░░░░░░░░░░░]  00:05 TO EXTINCTION [CRITICAL]
+🪨 Genesis     00%  [░░░░░░░░░░░░░░░░░░░░]  FALLEN (REFUND POOL ACTIVE)
 ```
-Velocity    63%  [████████████░░░░░░░░]  00:42 TO EXTINCTION
-Shadow      51%  [██████████░░░░░░░░░░]  00:31 TO EXTINCTION
-Vault       44%  [████████░░░░░░░░░░░░]  00:26 TO EXTINCTION
-Flow        38%  [███████░░░░░░░░░░░░░]  00:19 TO EXTINCTION
-Commons     29%  [█████░░░░░░░░░░░░░░░]  00:14 TO EXTINCTION
-Forge       22%  [████░░░░░░░░░░░░░░░░]  00:09 TO EXTINCTION
-Council     14%  [██░░░░░░░░░░░░░░░░░░]  00:05 TO EXTINCTION [CRITICAL]
-Genesis     00%  [░░░░░░░░░░░░░░░░░░░░]  FALLEN (REFUND POOL ACTIVE)
-```
 
-**Your nation is dying. Spend Influence to save it.**
+Each nation has an energy meter that continuously drains toward zero. Players begin with a finite allocation of **100 Influence** to intervene.
 
-When a nation hits zero, it is eliminated forever. Each elimination accelerates the drain on survivors. The last nation standing settles permanently on Solana.
+Supporting a nation restores its energy, but no intervention permanently halts the decay. When a nation depletes, it is eliminated forever. Each elimination accelerates the drain on all survivors. Players face an escalating dilemma: double down on their dying faction, or let it collapse to reclaim salvaged Influence for the grand finale.
+
+**The goal: Be the last nation standing.**
 
 ---
 
-## Why MagicBlock Ephemeral Rollups?
+## How to Play
 
-Traditional block times cannot support continuously mutating shared state with sub-second feedback:
+1. **Watch the Arena:** Eight pavilions drain simultaneously in real time.
+2. **Choose Your Faction:** Pick the philosophy you want to preserve.
+3. **Intervene:** Spend 10 Influence to inject +50 energy into your nation's meter (1-second cooldown).
+4. **Survive the Accelerating Drain:** As competing pavilions fall, surviving meters drain progressively faster.
+5. **Claim Death Refunds:** If your supported nation collapses, claim your proportional share of the 30-Influence refund pool to pivot support.
+6. **Victory:** The sole surviving pavilion wins the round.
 
-| Feature | Standard Solana Accounts | Delegated to MagicBlock ER |
+---
+
+## Core Game Mechanics
+
+| Mechanic | Rule | Value / Progression |
 |---|---|---|
-| **Tick Frequency** | 400ms slot times (jittery for continuous drain) | **10–50ms sub-block execution** in TEE |
-| **Intervention Gas** | Transaction fees on every single tap | **Gasless player actions** via ephemeral session delegation |
-| **Real-Time Physics** | Congestion causes delayed state updates | **Deterministic continuous meter drain** at 1-second granularity |
-| **State Finality** | High write load bloats base ledger history | **Transient competition in ER** · **Only the finale commits to Solana base layer** |
+| **Competing Nations** | 8 foundational crypto ideals | Velocity, Shadow, Vault, Flow, Commons, Forge, Council, Genesis |
+| **Starting Influence** | Finite per-player budget | **100 Influence** |
+| **Intervention Cost** | Cost to support a nation | **10 Influence** |
+| **Energy Restored** | Meter boost per intervention | **+50 units** (capped at 1,000) |
+| **Support Cooldown** | Prevents macro spamming | **1 second (1,000 ms)** |
+| **Baseline Drain Rate** | Starting passive decay | **−6 units/second** |
+| **Acceleration per Death** | Permanent penalty on elimination | **+4 units/second** per fallen nation |
+| **Death Refund Pool** | Capital recovery for fallen factions | **30 Influence**, split proportionally (minimum 1) |
+| **Victory Condition** | Last nation standing | Surviving pavilion when 7 nations deplete |
 
-> ⚡ **Not an L2 — Native Solana State Delegation:**  
-> MagicBlock is **not an L2 or a separate rollup chain**. The `RoundState` is a native Solana account. Through MagicBlock's Delegation Program, the account is temporarily delegated to a high-speed TEE validator for gasless, sub-second state transitions, then atomically committed and undelegated back on Solana.  
-> - **No bridges**  
-> - **No wrapped assets**  
-> - **No fragmented liquidity**  
-> Everything lives natively on Solana.
+### The Escalation Curve
 
----
+The arena starts calm and compounds into rapid-fire chaos:
 
-## The Eight Pavilions
+$$\text{Drain Rate} = 6 + (4 \times \text{Eliminations}) \quad \text{units/sec}$$
 
-Rather than dividing by chain logos, The Last Pavilion asks visitors to rally around competing foundational crypto ideals:
+$$\mathbf{6 \to 10 \to 14 \to 18 \to 22 \to 26 \to 30\text{ units/sec}}$$
 
-| Emoji | Pavilion | Core Philosophy |
-|---|---|---|
-| ⚡ | **Velocity** | Speed, sub-50ms execution, real-time interactivity |
-| 🔒 | **Shadow** | Confidentiality, zero-knowledge, individual privacy |
-| 🏛️ | **Vault** | Uncompromising self-custody, cryptographic ownership |
-| 💧 | **Flow** | Deep liquidity, capital efficiency, frictionless exchange |
-| 🌐 | **Commons** | Radical decentralization, open permissionless access |
-| 🔥 | **Forge** | Unstoppable innovation, composability, builder agency |
-| ⚖️ | **Council** | Scalable governance, dispute resolution, coordination |
-| 🪨 | **Genesis** | Immutable settlement, permanent history, hard security |
+By the time two finalists remain, meters drain at **−30 units/second**, requiring rapid coordination and split-second decisions.
 
----
+### Strategic Death Refunds
 
-## Game Mechanics & Invariants
+When a nation collapses, a **30 Influence refund pool** unlocks exclusively for its contributors. 
 
-The game specification enforces **strict compression**: zero new vocabulary is required before the player's first action.
+$$\text{Refund} = \min\left(30, \max\left(1, \left\lfloor \frac{\text{Player Spent on Nation} \times 30}{\text{Total Influence Spent on Nation}} \right\rfloor \right)\right)$$
 
-### 1. Political Capital (Influence)
-- Every visitor receives a finite budget of **100 Influence** per round.
-- Interventions cost **10 Influence** and grant **+50 units** to the target nation's meter (capped at 1,000).
-- An on-chain **1-second cooldown** prevents instantaneous dumping, ensuring an authentic tug-of-war dynamic.
-
-### 2. The Acceleration Curve
-- Rounds begin with a passive drain of **−6 units/second** per alive nation.
-- Each elimination permanently adds **+4 units/second** to the drain rate:
-  $$\text{Drain Rate} = 6 + (4 \times \text{eliminated\_nations}) \quad \text{units/sec}$$
-  $$(6 \rightarrow 10 \rightarrow 14 \rightarrow 18 \rightarrow 22 \rightarrow 26 \rightarrow 30\text{ units/sec})$$
-- The tension curve naturally compresses: calm beginnings evolve into chaotic, rapid-fire endgames.
-
-### 3. Fallen Nation Refund Pool
-- When a nation depletes, a **30 Influence refund pool** is unlocked.
-- The pool is distributed **proportionally** among that nation's contributors based on total Influence spent.
-- **Strategic depth:** Do you spend your remaining capital to preserve your dying faction, or let it collapse to reclaim Influence for the grand finale?
+The contract enforces a bitmask (`refunds_claimed_mask`) to guarantee each player claims their refund exactly once per fallen nation. This allows players whose first-choice faction perished early to recover political capital and influence the endgame.
 
 ---
 
-## System Architecture
+## Architecture & Engineering Trade-Off
 
 ```mermaid
 flowchart TD
-    subgraph Client["React / Next.js Client"]
+    subgraph Client["Next.js Web Client (Sub-50ms Loop)"]
         UI["World's Fair Stage"]
-        WS["Real-Time State Stream"]
+        LocalLoop["60 FPS Reactive Drain Loop"]
+        Audio["Web Audio Synthesizer (640Hz)"]
+        Refund["Death Refund Claim UI"]
     end
 
-    subgraph ER["MagicBlock Ephemeral Rollup (TEE Zone)"]
-        RoundPDA["RoundState Account (Delegated)"]
-        DrainLoop["Drain Tick (-6/s to -30/s)"]
-        SupportIX["support_nation (Costs 10, Adds +50)"]
-        RefundIX["claim_death_refund (Pool: 30)"]
+    subgraph Solana["Solana Devnet (Settlement & Custody)"]
+        Program["last_pavilion Anchor Program"]
+        RoundPDA["RoundState PDA (278 bytes)"]
+        PlayerPDA["PlayerState PDA (86 bytes)"]
+        SettlePDA["SettlementRecord PDA (66 bytes)"]
     end
 
-    subgraph Solana["Solana Base Layer"]
-        Program["last_pavilion Program"]
-        SettlementPDA["Permanent SettlementRecord PDA"]
-        DLP["MagicBlock Delegation Program"]
-    end
+    UI -->|Instant Click (0ms)| LocalLoop
+    LocalLoop --> Audio
+    LocalLoop --> Refund
 
-    UI -->|1. Sign & Submit Action| SupportIX
-    SupportIX --> RoundPDA
-    DrainLoop --> RoundPDA
-    RefundIX --> RoundPDA
-    RoundPDA -->|Push Sub-second Delta| WS
-    WS --> UI
-
-    Program -->|Delegate Account| DLP
-    DLP -.->|Transfer Ownership| ER
-    RoundPDA -->|2. Last Nation Survivor| Solana
-    Solana -->|Commit Proof & Undelegate| SettlementPDA
+    Program -->|1. initialize_round| RoundPDA
+    Program -->|2. join_round| PlayerPDA
+    Program -->|3. support_nation| RoundPDA
+    RoundPDA -->|4. Final Settle| SettlePDA
 ```
 
-1. **`initialize_round` & `delegate_round` (Solana):** Creates the `RoundState` PDA and invokes CPI to the MagicBlock Delegation Program to delegate custody to the TEE validator.
-2. **`support_nation` & `drain_tick` (MagicBlock ER):** High-frequency state mutation runs gaslessly at sub-second speeds within the delegated TEE.
-3. **`settle_round` (Undelegate to Solana):** Once only one pavilion survives, `MagicIntentBundleBuilder::commit_and_undelegate` commits the permanent `SettlementRecord` back to Solana base layer storage.
+### Engineering Trade-Off: Responsive Gameplay vs. Live Execution
+
+During the Blitz 9 build, integrating MagicBlock's Ephemeral Rollup SDK (`ephemeral-rollups-sdk = "0.16.2"`) into our Solana CLI 1.18 / Anchor 0.29 toolchain encountered transitive Rust dependency compatibility failures involving crates published with `edition = "2024"` (which require `rustc >= 1.85`, whereas Solana 1.18 embeds `rustc 1.75`).
+
+**To preserve a reliable, working submission, I made an explicit architectural decision:**
+1. The **game loop and visual tug-of-war** were implemented as an optimistic client-side simulation in Next.js to deliver instant 60 FPS feedback without transaction lag or wallet popup fatigue.
+2. The **Anchor smart contract** was decoupled from the heavy SDK proc-macros, compiled into clean SBF bytecode, and deployed directly to **Solana Devnet**.
+3. **On-chain operations** (`init`, `join`, `support`) were verified directly on Devnet using Anchor PDAs and a standalone controller script.
+
+**Current status:** The playable prototype delivers the sub-50ms arcade feel in the browser, backed by a deployed on-chain Anchor contract on Devnet. Gameplay clicks currently route through optimistic client state rather than an active MagicBlock Ephemeral Rollup sequencer.
+
+**Next milestone:** Upgrade the toolchain to complete the live delegation CPI lifecycle, route sub-second player interventions through MagicBlock session keys on the TEE sequencer, and verify automated state commitment back to Solana L1.
 
 ---
 
-## Quickstart
+## On-Chain Verification (Solana Devnet)
+
+The Anchor program is deployed and active on Solana Devnet:
+
+* **Program ID:** [`38iyWaZXa4nAZZxGYEGA6GqXhWE5g1dPt9ht9iFcxo63`](https://explorer.solana.com/address/38iyWaZXa4nAZZxGYEGA6GqXhWE5g1dPt9ht9iFcxo63?cluster=devnet)
+* **Program Authority:** `542cSPaohJExS8mkeHMsgMTJg2gr4GcQWRGUPRpYKsfn`
+* **Round 42 PDA:** `9cosnFngYW1bYVPwWEmPYefEnBWdFtrG2U227mNAsj7d`
+
+### Verified Transactions on Solana Explorer
+
+* **Initialize Round 42:** [`ZZUrcDGDwuPJky5c...`](https://explorer.solana.com/tx/ZZUrcDGDwuPJky5cZvMvvrJrx2Qsh3FopmSY8AR85DuhjcVKsSHoQ6AqPcaPB2z5xbAAMv19cTqfM7AbBHrKTP4?cluster=devnet)
+* **Join Round 42:** [`65waTiZLyRVDyVNh...`](https://explorer.solana.com/tx/65waTiZLyRVDyVNhqo6b8VJwhjvsmwJVhTRKVtxksSBNiANmj3qNDa74MmKbpLF96sbKyEijhxzSTLuVQnaEHTS4?cluster=devnet)
+* **Support Nation 0 (Velocity):** [`5dNeqesXp3ycXUag...`](https://explorer.solana.com/tx/5dNeqesXp3ycXUag6skc341f9HYk4K2MGaRir7bfAw3ujBkeereVd2uUTQSPqEocCyNmn8GkdCrB8mjtNk9GGHKs?cluster=devnet)
+* **Support Nation 1 (Shadow):** [`64FuJMp7oWhsKPX4...`](https://explorer.solana.com/tx/64FuJMp7oWhsKPX4geUe9pQBkEsPe5tsqcyCEYXbb4NLrkdRP3SpZZd66NHFc6QKhBLk8bppzJw8DZsCjSGVEuUx?cluster=devnet)
+
+---
+
+## Getting Started
 
 ### Prerequisites
-- Node.js 18+ & npm / bun
-- Rust & Cargo (1.75+)
-- Solana CLI & Anchor 0.29+
 
-### 1. Clone & Install
+* **Node.js:** v18.0.0+ (Tested on Node 24)
+* **Solana CLI:** 1.18.18+
+* **Anchor CLI:** 0.29.0+
+* **Rust:** 1.75.0+
+
+### 1. Run the Web Application
+
 ```bash
+# Clone the repository
 git clone https://github.com/Olalolo22/last-pavilion.git
 cd last-pavilion
 
 # Install web app dependencies
-cd app && bun install
+cd app
+npm install
+
+# Start development server
+npm run dev
 ```
 
-### 2. Run Web Application
-```bash
-bun dev
-```
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-- **Fast Demo Mode:** Append `?speed=fast` to simulate the entire tension curve in under 60 seconds for live demos.
-- **Crowd Simulation:** Toggle crowd simulation from the bottom-right floating demo dock.
+* **Accelerated Demo Mode:** Open [http://localhost:3000/?speed=fast](http://localhost:3000/?speed=fast) or click **FAST DEMO MODE** in the top dock to accelerate drain speed and complete a full match in ~60–80 seconds.
+* **Streamlined Arena:** Visit [http://localhost:3000/fair](http://localhost:3000/fair) for the minimalist cards-only stage.
 
-### 3. Anchor Program Build
+### 2. Build the Solana Program
+
 ```bash
-# From workspace root
-cargo check --manifest-path programs/last-pavilion/Cargo.toml
+# From repository root
+cargo build-sbf \
+  --manifest-path programs/last-pavilion/Cargo.toml \
+  --sbf-out-dir target/deploy
+```
+
+### 3. Interact with the Program via CLI Script
+
+The repository includes a standalone Node.js controller script that communicates directly with Solana Devnet:
+
+```bash
+# Install root CLI dependencies
+npm install
+
+# Check on-chain Round 42 status
+node scripts/manage_round.mjs status 42
+
+# Initialize a new round
+node scripts/manage_round.mjs init 43
+
+# Register your wallet as a citizen
+node scripts/manage_round.mjs join 43
+
+# Support Nation 0 (Velocity)
+node scripts/manage_round.mjs support 0 43
 ```
 
 ---
 
-## Program Instructions
+## Repository Structure
 
-| Instruction | Execution Context | Description |
-|---|---|---|
-| `initialize_round` | Solana Base | Initialises `RoundState` account on Solana |
-| `delegate_round` | Solana Base | Invokes CPI to Delegation Program to delegate PDA to MagicBlock TEE |
-| `join_round` | MagicBlock ER | Registers player and allocates 100 Influence (gasless) |
-| `support_nation` | MagicBlock ER | Spends 10 Influence, adds +50 meter (enforces 1s cooldown) |
-| `drain_tick` | MagicBlock ER | Drains meters, eliminates depleted pavilions, accelerates drain rate |
-| `claim_death_refund` | MagicBlock ER | Claims proportional share of 30 Influence refund pool |
-| `settle_round` | ER $\rightarrow$ Solana | Commits final state and undelegates back to Solana base storage |
+```text
+last-pavilion/
+├── Anchor.toml                                # Anchor 0.29 configuration & devnet program address
+├── Cargo.toml                                 # Root workspace manifest
+├── package.json                               # Root package configuration for CLI scripts
+├── README.md                                  # Project overview and technical documentation
+├── programs/
+│   └── last-pavilion/
+│       ├── Cargo.toml                         # Program dependencies (anchor-lang 0.29)
+│       └── src/
+│           ├── lib.rs                         # Anchor program entrypoint & instruction routing
+│           ├── errors.rs                      # Custom error codes (PavilionError)
+│           ├── state.rs                       # Account structs: RoundState, PlayerState, SettlementRecord
+│           └── instructions/
+│               ├── open_round.rs              # initialize_round & delegate_round handlers
+│               ├── join_round.rs              # join_round handler (player registration)
+│               ├── support_nation.rs          # support_nation handler (influence spending & cooldown)
+│               ├── drain_tick.rs              # drain_tick handler (elimination & acceleration)
+│               ├── claim_death_refund.rs      # claim_death_refund handler (pool distribution)
+│               └── settle_round.rs            # settle_round handler (settlement record creation)
+├── scripts/
+│   └── manage_round.mjs                       # Standalone CLI script for Devnet execution & testing
+└── app/
+    ├── package.json                           # Next.js 14 and Solana Web3 dependencies
+    └── src/
+        ├── app/
+        │   ├── page.tsx                       # Primary interactive arena route (/)
+        │   └── fair/page.tsx                  # Minimalist arena stage route (/fair)
+        ├── context/
+        │   └── GameContext.tsx                # Central reactive game loop, drain tick, & crowd sim
+        ├── lib/
+        │   ├── constants.ts                   # Game invariants (capacity, drain rate, costs)
+        │   ├── nations.ts                     # The 8 pavilions (Velocity, Shadow, Vault, etc.)
+        │   ├── types.ts                       # TypeScript interfaces for rounds, players, events
+        │   └── solanaService.ts               # Instruction encoders, discriminators, & PDA decoders
+        └── components/
+            ├── Navbar.tsx                     # Top bar, player influence gauge, citizen address
+            ├── WorldFairHeader.tsx            # Hero hook & 4-metric status bar
+            ├── NationGrid.tsx                 # 8-card responsive nation grid
+            ├── NationCard.tsx                 # Dynamic meter, countdown, sound, support/refund CTA
+            ├── EliminationAlert.tsx           # Floating banner triggered upon pavilion death
+            ├── ActivityFeed.tsx               # Real-time event telemetry log
+            ├── SettlementModal.tsx            # Endgame champion popover with confetti
+            └── DemoControls.tsx               # Fast mode toggle, crowd sim toggle, architecture modal
+```
 
 ---
 
-## License
-MIT License. Built with passion for **MagicBlock Blitz 9** (2026).
+## Roadmap
+
+- [x] SBF Anchor program deployed to Solana Devnet (`38iyWaZX...`)
+- [x] Verified on-chain Round PDA initialization and player interaction transactions
+- [x] 60 FPS sub-50ms reactive web game client with audio synthesis and death refund mechanics
+- [ ] Upgrade Solana toolchain to resolve upstream Rust 2024 edition crates
+- [ ] Connect the frontend directly to MagicBlock's live TEE Ephemeral Rollup sequencer
+- [ ] Implement session keys for gasless in-browser ER signing
+- [ ] Add automated Anchor integration test suite
+
+---
+
+**The Last Pavilion**  
+*Your nation is dying. Save it.*

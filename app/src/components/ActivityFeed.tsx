@@ -16,7 +16,7 @@ export function ActivityFeed() {
             <span>LIVE WORLD'S FAIR TELEMETRY</span>
           </div>
           <span className="text-[10px] font-mono text-slate-500">
-            SUB-SECOND EPHEMERAL ROLLUP STREAM
+            SUB-SECOND TELEMETRY STREAM
           </span>
         </div>
 

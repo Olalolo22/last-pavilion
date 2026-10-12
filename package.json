@@ -1,0 +1,15 @@
+{
+  "name": "last-pavilion",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "round:init": "node scripts/manage_round.mjs init",
+    "round:join": "node scripts/manage_round.mjs join",
+    "round:support": "node scripts/manage_round.mjs support",
+    "round:status": "node scripts/manage_round.mjs status"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.98.0"
+  }
+}
