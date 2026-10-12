@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useGame } from '../context/GameContext';
-import { Zap, Users, Flame, Landmark, ShieldCheck } from 'lucide-react';
+import { Zap, Users, Flame, Shield, Globe } from 'lucide-react';
 
 export function Navbar() {
   const { round, player } = useGame();
@@ -27,7 +27,7 @@ export function Navbar() {
               </span>
             </div>
             <div className="text-xs text-slate-400 flex items-center gap-1.5 font-mono">
-              <span>CRYPTO'S WORLD FAIR</span>
+              <span>CRYPTO WORLD'S FAIR</span>
               <span>•</span>
               <span className="text-amber-400/90 flex items-center gap-1">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping inline-block" />
@@ -54,12 +54,12 @@ export function Navbar() {
           </div>
           <div className="w-px h-3 bg-white/10" />
           <div className="flex items-center gap-1.5">
-            <ShieldCheck size={14} className="text-emerald-400" />
-            <span className="text-emerald-400 font-semibold">MAGICBLOCK ER</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-emerald-400 font-semibold">MAGICBLOCK ER TEE</span>
           </div>
         </div>
 
-        {/* Player Influence Metric & Citizen Address */}
+        {/* Player Influence Metric & Wallet */}
         <div className="flex items-center gap-3">
           {/* Influence Box */}
           <div className="flex flex-col items-end px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500/10 to-amber-500/20 border border-amber-500/40 shadow-[0_0_20px_rgba(245,158,11,0.15)]">
@@ -82,8 +82,8 @@ export function Navbar() {
             </div>
           </div>
 
-          {/* Citizen Pill */}
-          <div className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:border-white/20 transition-all">
+          {/* Wallet / Citizen Pill */}
+          <div className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-xl bg-white/[0.05] border border-white/10 hover:border-white/20 transition-all cursor-pointer">
             <div className="w-2 h-2 rounded-full bg-emerald-400" />
             <span className="font-mono text-xs text-slate-300">{player.address}</span>
           </div>
