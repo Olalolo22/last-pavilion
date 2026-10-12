@@ -1,10 +1,7 @@
 use anchor_lang::prelude::*;
-use ephemeral_rollups_sdk::anchor::commit;
-use ephemeral_rollups_sdk::ephem::{FoldableIntentBuilder, MagicIntentBundleBuilder};
 use crate::state::{RoundState, RoundStatus, SettlementRecord};
 use crate::errors::PavilionError;
 
-#[commit]
 #[derive(Accounts)]
 #[instruction(round_id: u64)]
 pub struct SettleRound<'info> {
@@ -26,13 +23,6 @@ pub struct SettleRound<'info> {
         bump,
     )]
     pub settlement_record: Account<'info, SettlementRecord>,
-
-    /// CHECK: MagicBlock context account required for ER commit & undelegate CPI
-    #[account(mut)]
-    pub magic_context: UncheckedAccount<'info>,
-
-    /// CHECK: MagicBlock magic program
-    pub magic_program: UncheckedAccount<'info>,
 
     pub system_program: Program<'info, System>,
 }
@@ -56,24 +46,13 @@ pub fn handler(ctx: Context<SettleRound>, round_id: u64) -> Result<()> {
     record.settled_at_timestamp = now;
     record.authority = ctx.accounts.authority.key();
     record.bump = ctx.bumps.settlement_record;
-
     msg!(
-        "Committing and undelegating Round {} to Solana. Winner: Nation {}, Actions: {}, Duration: {}s",
+        "Round {} settled on Solana! Winner: Nation {}, Actions: {}, Duration: {}s",
         round_id,
         round.winner_nation_id,
         round.total_actions,
         record.duration_seconds
     );
 
-    // Commit state and undelegate round account back to base Solana
-    MagicIntentBundleBuilder::new(
-        ctx.accounts.authority.to_account_info(),
-        ctx.accounts.magic_context.to_account_info(),
-        ctx.accounts.magic_program.to_account_info(),
-    )
-    .commit_and_undelegate(&[ctx.accounts.round_state.to_account_info()])
-    .build_and_invoke()?;
-
-    msg!("Round {} successfully committed and settled on Solana!", round_id);
     Ok(())
 }

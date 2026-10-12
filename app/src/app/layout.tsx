@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: "The Last Pavilion — Crypto's World Fair (Blitz 9)",
+  title: "The Last Pavilion — Crypto's World Fair",
   description:
-    'A real-time survival coordination game on Solana & MagicBlock Ephemeral Rollups. Eight crypto ideals entered. Meters drain continuously. Intervene before extinction.',
+    'Eight nations enter. One survives. A live multiplayer survival attraction built on Solana and MagicBlock.',
   keywords: [
     'solana',
     'magicblock',
@@ -20,7 +20,7 @@ export const viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
-  themeColor: '#05070c',
+  themeColor: '#11110f',
 };
 
 export default function RootLayout({

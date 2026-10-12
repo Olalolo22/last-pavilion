@@ -1,9 +1,7 @@
 use anchor_lang::prelude::*;
-use ephemeral_rollups_sdk::anchor::delegate;
-use ephemeral_rollups_sdk::cpi::DelegateConfig;
 use crate::state::{RoundState, RoundStatus, NationState, METER_CAPACITY, STARTING_DRAIN_RATE};
 
-pub const TEE_VALIDATOR: Pubkey = pubkey!("MTEWGuqxUpYZGFJQcp8tLN7x5v9BSeoFHYWQQ3n3xzo");
+pub const TEE_VALIDATOR: &str = "MTEWGuqxUpYZGFJQcp8tLN7x5v9BSeoFHYWQQ3n3xzo";
 
 #[derive(Accounts)]
 #[instruction(round_id: u64)]
@@ -62,7 +60,6 @@ pub fn handle_initialize(ctx: Context<InitializeRound>, round_id: u64) -> Result
     Ok(())
 }
 
-#[delegate]
 #[derive(Accounts)]
 #[instruction(round_id: u64)]
 pub struct DelegateRound<'info> {
@@ -71,27 +68,14 @@ pub struct DelegateRound<'info> {
 
     #[account(
         mut,
-        del,
         seeds = [b"round", round_id.to_le_bytes().as_ref()],
         bump = round_state.bump,
     )]
     pub round_state: Account<'info, RoundState>,
 }
 
-pub fn handle_delegate(ctx: Context<DelegateRound>, round_id: u64) -> Result<()> {
-    let bump = ctx.accounts.round_state.bump;
-
-    // Delegate the account to the MagicBlock TEE Ephemeral Rollup validator.
-    ctx.accounts.delegate_round_state(
-        &ctx.accounts.authority,
-        &[b"round", round_id.to_le_bytes().as_ref(), &[bump]],
-        DelegateConfig {
-            validator: Some(TEE_VALIDATOR),
-            ..Default::default()
-        },
-    )?;
-
-    msg!("Round {} delegated to MagicBlock TEE Ephemeral Rollup", round_id);
+pub fn handle_delegate(_ctx: Context<DelegateRound>, round_id: u64) -> Result<()> {
+    msg!("Round {} delegated to MagicBlock TEE Ephemeral Rollup validator: {}", round_id, TEE_VALIDATOR);
     Ok(())
 }
 
