@@ -121,7 +121,14 @@ During the Blitz 9 build, integrating MagicBlock's Ephemeral Rollup SDK (`epheme
 2. The **Anchor smart contract** was decoupled from the heavy SDK proc-macros, compiled into clean SBF bytecode, and deployed directly to **Solana Devnet**.
 3. **On-chain operations** (`init`, `join`, `support`) were verified directly on Devnet using Anchor PDAs and a standalone controller script.
 
-**Current status:** The playable prototype delivers the sub-50ms arcade feel in the browser, backed by a deployed on-chain Anchor contract on Devnet. Gameplay clicks currently route through optimistic client state rather than an active MagicBlock Ephemeral Rollup sequencer.
+#### Why Phantom / Wallet Adapter Isn't Wrapped in the UI Right Now
+
+`@solana/wallet-adapter-react` and Phantom dependencies are already installed in `package.json`, but they weren't wrapped into the live UI for two specific reasons:
+
+1. **The Phantom Popup Trap:** If a real Phantom wallet is connected directly to Solana Devnet, Phantom will pop up a confirmation window and ask you to sign a transaction on every single click. In a fast tug-of-war game where you click every second, having Phantom pop up 30 times completely destroys the game loop and makes the demo unrecordable.
+2. **The Session Key Blocker:** The real Web3 solution to this is **Session Keys** (you connect Phantom once, approve a temporary in-browser keypair, and the session signs in the background without popups). But Session Keys in MagicBlock require the live Ephemeral Rollup sequencer, which was blocked by the Rust 2024 compiler issue.
+
+**Current status:** The playable prototype delivers the sub-50ms arcade feel in the browser with an auto-provisioned demo citizen keypair (`Demo...7x9Q` with 100 Influence), backed by a deployed on-chain Anchor contract on Devnet. Gameplay clicks currently route through optimistic client state rather than an active MagicBlock Ephemeral Rollup sequencer.
 
 **Next milestone:** Upgrade the toolchain to complete the live delegation CPI lifecycle, route sub-second player interventions through MagicBlock session keys on the TEE sequencer, and verify automated state commitment back to Solana L1.
 
