@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useGame } from '../context/GameContext';
-import { Radio } from 'lucide-react';
+import { Activity, Radio } from 'lucide-react';
 
 export function ActivityFeed() {
   const { activityFeed } = useGame();
@@ -16,7 +16,7 @@ export function ActivityFeed() {
             <span>LIVE WORLD'S FAIR TELEMETRY</span>
           </div>
           <span className="text-[10px] font-mono text-slate-500">
-            SUB-SECOND TELEMETRY STREAM
+            SUB-SECOND EPHEMERAL ROLLUP STREAM
           </span>
         </div>
 
