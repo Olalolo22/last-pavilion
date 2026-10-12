@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useGame } from '../context/GameContext';
 import confetti from 'canvas-confetti';
+import { playChirp } from '../lib/audio';
 
 export function SettlementModal() {
   const { round, resetRound } = useGame();
@@ -21,6 +22,7 @@ export function SettlementModal() {
         origin: { y: 0.6 },
         colors: ['#b18a4a', '#f1eee7', winner.color || '#00f0ff'],
       });
+      playChirp(880, 0.25, 0.12);
       setCountdown(10);
     }
   }, [isSettled, winner]);
@@ -226,7 +228,10 @@ export function SettlementModal() {
 
         {/* Action Button: Auto-Countdown */}
         <button
-          onClick={resetRound}
+          onClick={() => {
+            playChirp(640, 0.1);
+            resetRound();
+          }}
           className="enter-button"
           style={{
             width: '100%',

@@ -14,28 +14,7 @@ import {
   COOLDOWN_MS,
 } from '../lib/constants';
 
-export function playChirp(freq = 640, duration = 0.08) {
-  if (typeof window === 'undefined') return;
-  try {
-    const AudioCtx =
-      window.AudioContext ||
-      (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-    if (!AudioCtx) return;
-    const ctx = new AudioCtx();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(freq, ctx.currentTime);
-    gain.gain.setValueAtTime(0.12, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + duration);
-  } catch {
-    // audio may be suppressed by browser before interaction
-  }
-}
+import { playChirp } from '../lib/audio';
 
 interface GameContextType {
   round: RoundState;
@@ -64,7 +43,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     startTimestamp: Date.now(),
     lastDrainTimestamp: Date.now(),
     currentDrainRate: STARTING_DRAIN_RATE,
-    aliveNationsCount: INITIAL_NATIONS.filter((n) => !n.isEliminated).length,
+    aliveNationsCount: 8,
     winnerNationId: null,
     totalActions: 184,
     totalParticipants: 47,
@@ -76,9 +55,9 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     address: 'Demo...7x9Q',
     influenceRemaining: STARTING_INFLUENCE,
     lastSupportTimestamp: 0,
-    influenceSpentPerNation: [0, 0, 0, 0, 0, 0, 0, 10], // 10 Influence allocated to Genesis
+    influenceSpentPerNation: [0, 0, 0, 0, 0, 0, 0, 0],
     refundsClaimed: [false, false, false, false, false, false, false, false],
-    totalSpent: 10,
+    totalSpent: 0,
     selectedNationId: 0, // defaults to Velocity
   }));
 
@@ -414,7 +393,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       startTimestamp: Date.now(),
       lastDrainTimestamp: Date.now(),
       currentDrainRate: STARTING_DRAIN_RATE,
-      aliveNationsCount: INITIAL_NATIONS.filter((n) => !n.isEliminated).length,
+      aliveNationsCount: 8,
       winnerNationId: null,
       totalActions: 0,
       totalParticipants: Math.floor(30 + Math.random() * 50),
@@ -426,9 +405,9 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       address: 'Demo...7x9Q',
       influenceRemaining: STARTING_INFLUENCE,
       lastSupportTimestamp: 0,
-      influenceSpentPerNation: [0, 0, 0, 0, 0, 0, 0, 10],
+      influenceSpentPerNation: [0, 0, 0, 0, 0, 0, 0, 0],
       refundsClaimed: [false, false, false, false, false, false, false, false],
-      totalSpent: 10,
+      totalSpent: 0,
       selectedNationId: 0,
     });
 

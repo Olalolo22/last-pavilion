@@ -3,6 +3,7 @@
 import React from 'react';
 import { useGame } from '../context/GameContext';
 import { NationCard } from './NationCard';
+import { playChirp } from '../lib/audio';
 
 export function NationGrid() {
   const { round, player, grantStipend } = useGame();
@@ -29,7 +30,10 @@ export function NationGrid() {
           </i>
           {player.influenceRemaining < 20 && (
             <button
-              onClick={() => grantStipend(50)}
+              onClick={() => {
+                playChirp(880, 0.14, 0.1);
+                grantStipend(50);
+              }}
               style={{
                 marginTop: '8px',
                 background: 'rgba(177, 138, 74, 0.15)',

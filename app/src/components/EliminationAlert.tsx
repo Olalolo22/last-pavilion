@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { X, RotateCcw } from 'lucide-react';
+import { playChirp } from '../lib/audio';
 
 export function EliminationAlert() {
   const {
@@ -82,6 +83,7 @@ export function EliminationAlert() {
           {!hasClaimed && (
             <button
               onClick={() => {
+                playChirp(780, 0.16, 0.12);
                 claimRefund(lastEliminatedNation.id);
                 dismissEliminationAlert();
               }}

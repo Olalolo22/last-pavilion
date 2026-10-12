@@ -5,6 +5,7 @@ import { Clock, Zap, RotateCcw } from 'lucide-react';
 import { Nation } from '../lib/types';
 import { useGame } from '../context/GameContext';
 import { METER_CAPACITY, DEATH_REFUND_POOL } from '../lib/constants';
+import { playChirp } from '../lib/audio';
 
 export function NationCard({ nation }: { nation: Nation }) {
   const {
@@ -55,11 +56,13 @@ export function NationCard({ nation }: { nation: Nation }) {
   const handleSupport = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (eliminated) return;
+    playChirp(640, 0.12, 0.1);
     supportNation(nation.id);
   };
 
   const handleClaimRefund = (e: React.MouseEvent) => {
     e.stopPropagation();
+    playChirp(780, 0.16, 0.12);
     claimRefund(nation.id);
   };
 
@@ -127,6 +130,7 @@ export function NationCard({ nation }: { nation: Nation }) {
           }}
           onClick={(e) => {
             e.stopPropagation();
+            playChirp(880, 0.14, 0.1);
             grantStipend(50);
           }}
         >
