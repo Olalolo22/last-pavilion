@@ -124,18 +124,19 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     ]);
   }, []);
 
-  // 1-Second Drain Loop (Running inside simulated/connected ER engine)
+  // Drain Loop (Sub-second reactive loop)
   useEffect(() => {
     if (round.status !== 'ACTIVE') return;
 
-    const intervalMs = isFastMode ? 333 : 1000;
-    const drainMultiplier = isFastMode ? 3 : 1;
+    const intervalMs = isFastMode ? 500 : 1000;
+    const drainMultiplier = isFastMode ? 2.5 : 1;
 
     const interval = setInterval(() => {
       setRound((prevRound) => {
         if (prevRound.status !== 'ACTIVE') return prevRound;
 
-        const effectiveDrain = prevRound.currentDrainRate * drainMultiplier;
+        const secondsFraction = intervalMs / 1000;
+        const effectiveDrain = Math.max(1, Math.round(prevRound.currentDrainRate * drainMultiplier * secondsFraction));
         let newAliveCount = prevRound.aliveNationsCount;
         let newDrainRate = prevRound.currentDrainRate;
         let newlyEliminated: Nation | null = null;
@@ -211,7 +212,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       const aliveNations = round.nations.filter((n) => !n.isEliminated);
       if (aliveNations.length === 0) return;
 
-      const randomNation = aliveNations[Math.floor(Math.random() * aliveNations.length)];
+      // Crowd focuses support on viable factions (meter > 200) so endangered nations collapse naturally
+      const viable = aliveNations.filter((n) => n.meter > 200);
+      const candidates = viable.length > 0 ? viable : aliveNations;
+      const randomNation = candidates[Math.floor(Math.random() * candidates.length)];
       const randomPlayerSuffix = Math.floor(1000 + Math.random() * 9000);
 
       setRound((prev) => {

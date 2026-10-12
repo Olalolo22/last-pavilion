@@ -20,12 +20,12 @@ export function NationCard({ nation }: { nation: Nation }) {
   } = useGame();
 
   const eliminated = nation.isEliminated;
-  const critical = !eliminated && nation.meter <= 250;
+  const drainPerSec = round.currentDrainRate * (isFastMode ? 2.5 : 1);
+  const seconds = drainPerSec ? Math.ceil(nation.meter / drainPerSec) : 0;
+  const critical = !eliminated && (nation.meter <= 300 || seconds <= 20);
   const selected = player.selectedNationId === nation.id;
   const percent = Math.max(0, Math.min(100, (nation.meter / METER_CAPACITY) * 100));
 
-  const drain = round.currentDrainRate * (isFastMode ? 3 : 1);
-  const seconds = drain ? Math.ceil(nation.meter / drain) : 0;
   const time = `${String(Math.floor(seconds / 60)).padStart(2, '0')}:${String(
     seconds % 60
   ).padStart(2, '0')}`;
@@ -145,7 +145,7 @@ export function NationCard({ nation }: { nation: Nation }) {
           <Zap size={12} aria-hidden="true" />{' '}
           {cooldownRemaining > 0
             ? 'COOLDOWN'
-            : 'SUPPORT (+50)'}
+            : '+50 ENERGY (−10 INF)'}
         </button>
       )}
     </article>
