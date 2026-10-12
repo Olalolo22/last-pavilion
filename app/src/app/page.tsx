@@ -5,6 +5,14 @@ import Link from 'next/link';
 import { INITIAL_NATIONS } from '../lib/nations';
 
 export default function LandingPage() {
+  const [fairHref, setFairHref] = React.useState('/fair');
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.search) {
+      setFairHref(`/fair${window.location.search}`);
+    }
+  }, []);
+
   return (
     <main className="landing-shell">
       {/* Background Animated Beacons of 8 Competing Nations */}
@@ -44,7 +52,7 @@ export default function LandingPage() {
           A multiplayer survival attraction where everyone decides which ideals survive
           Crypto&apos;s World Fair.
         </p>
-        <Link className="enter-button" href="/fair">
+        <Link className="enter-button" href={fairHref}>
           ENTER THE FAIR <span aria-hidden="true">→</span>
         </Link>
         <p className="landing-footnote">

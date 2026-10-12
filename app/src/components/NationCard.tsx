@@ -13,6 +13,7 @@ export function NationCard({ nation }: { nation: Nation }) {
     cooldownRemaining,
     supportNation,
     claimRefund,
+    grantStipend,
     selectNation,
     isFastMode,
   } = useGame();
@@ -30,23 +31,25 @@ export function NationCard({ nation }: { nation: Nation }) {
 
   const playerSpentOnThis = player.influenceSpentPerNation[nation.id];
   const hasClaimedRefund = player.refundsClaimed[nation.id];
-  const canClaimRefund = eliminated && playerSpentOnThis > 0 && !hasClaimedRefund;
+  const canClaimRefund = eliminated && !hasClaimedRefund;
 
-  const potentialRefund = Math.min(
-    DEATH_REFUND_POOL,
-    Math.max(
-      1,
-      Math.round(
-        (playerSpentOnThis * DEATH_REFUND_POOL) /
-          Math.max(1, nation.totalInfluenceSpent)
-      )
-    )
-  );
+  const potentialRefund =
+    playerSpentOnThis > 0
+      ? Math.min(
+          DEATH_REFUND_POOL,
+          Math.max(
+            15,
+            Math.round(
+              (playerSpentOnThis * DEATH_REFUND_POOL) /
+                Math.max(1, nation.totalInfluenceSpent)
+            )
+          )
+        )
+      : 15;
 
   const disabled =
     eliminated ||
     round.status !== 'ACTIVE' ||
-    player.influenceRemaining < 10 ||
     cooldownRemaining > 0;
 
   const handleSupport = (e: React.MouseEvent) => {
@@ -94,25 +97,41 @@ export function NationCard({ nation }: { nation: Nation }) {
         <strong>{Math.round(percent)}%</strong>
       </div>
 
-      {/* Action: SUPPORT or CLAIM REFUND */}
+      {/* Action: SUPPORT, RELOAD, or CLAIM REFUND */}
       {eliminated ? (
         canClaimRefund ? (
           <button
             className="support-button"
             style={{
-              borderColor: '#a855f7',
-              color: '#d8b4fe',
-              background: 'rgba(168,85,247,0.15)',
+              borderColor: 'var(--brass)',
+              color: 'var(--paper)',
+              background: 'rgba(177,138,74,0.18)',
             }}
             onClick={handleClaimRefund}
           >
-            <RotateCcw size={12} aria-hidden="true" /> CLAIM +{potentialRefund} REFUND
+            <RotateCcw size={12} aria-hidden="true" /> CLAIM +{potentialRefund}{' '}
+            {playerSpentOnThis > 0 ? 'REFUND' : 'SALVAGE'}
           </button>
         ) : (
           <button className="support-button" disabled>
-            {hasClaimedRefund ? 'REFUND CREDITED' : 'PAVILION LOST'}
+            {hasClaimedRefund ? 'REFUND CREDITED' : 'PAVILION EXTINCT'}
           </button>
         )
+      ) : player.influenceRemaining < 10 ? (
+        <button
+          className="support-button"
+          style={{
+            borderColor: 'var(--brass)',
+            color: 'var(--brass)',
+            background: 'rgba(177,138,74,0.1)',
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            grantStipend(50);
+          }}
+        >
+          <Zap size={12} aria-hidden="true" /> RELOAD +50 INFLUENCE
+        </button>
       ) : (
         <button
           className="support-button"
@@ -122,8 +141,6 @@ export function NationCard({ nation }: { nation: Nation }) {
           <Zap size={12} aria-hidden="true" />{' '}
           {cooldownRemaining > 0
             ? 'COOLDOWN'
-            : player.influenceRemaining < 10
-            ? 'NO INFLUENCE'
             : 'SUPPORT (+50)'}
         </button>
       )}

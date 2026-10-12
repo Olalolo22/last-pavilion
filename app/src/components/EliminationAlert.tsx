@@ -2,55 +2,116 @@
 
 import React, { useEffect } from 'react';
 import { useGame } from '../context/GameContext';
-import { Skull, AlertTriangle, X } from 'lucide-react';
+import { X, RotateCcw } from 'lucide-react';
 
 export function EliminationAlert() {
-  const { lastEliminatedNation, dismissEliminationAlert, round } = useGame();
+  const {
+    lastEliminatedNation,
+    dismissEliminationAlert,
+    round,
+    player,
+    claimRefund,
+  } = useGame();
 
   useEffect(() => {
     if (!lastEliminatedNation) return;
     const timer = setTimeout(() => {
       dismissEliminationAlert();
-    }, 4500);
+    }, 6000);
     return () => clearTimeout(timer);
   }, [lastEliminatedNation, dismissEliminationAlert]);
 
   if (!lastEliminatedNation) return null;
 
+  const hasClaimed = player.refundsClaimed[lastEliminatedNation.id];
+
   return (
-    <div className="fixed top-24 left-1/2 transform -translate-x-1/2 z-50 w-11/12 max-w-lg animate-in fade-in slide-in-from-top-6 duration-300">
-      <div className="glass-panel p-4 bg-red-950/95 border border-red-500/80 shadow-[0_0_40px_rgba(239,68,68,0.6)] flex items-center justify-between gap-4">
+    <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 w-11/12 max-w-lg animate-in fade-in slide-in-from-top-4 duration-300">
+      <div
+        className="p-4 sm:p-5 flex items-center justify-between gap-4"
+        style={{
+          background: '#1a1916',
+          border: '1px solid rgba(244, 63, 94, 0.4)',
+          borderLeft: '4px solid #f43f5e',
+          boxShadow: '0 16px 48px rgba(0, 0, 0, 0.8)',
+          color: 'var(--paper)',
+          fontFamily: "'DM Sans', sans-serif",
+        }}
+      >
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-red-500/20 border border-red-500/50 flex items-center justify-center flex-shrink-0 animate-bounce">
-            <Skull className="text-red-400" size={24} />
-          </div>
+          <span style={{ fontSize: '30px' }}>{lastEliminatedNation.emoji}</span>
           <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono font-bold uppercase tracking-wider text-red-400 flex items-center gap-1">
-                <AlertTriangle size={12} />
-                PAVILION ELIMINATED
-              </span>
-              <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-black/40 text-red-300">
-                DRAIN ACCELERATED
-              </span>
+            <div
+              style={{
+                color: '#f43f5e',
+                font: "500 10px 'DM Mono', monospace",
+                letterSpacing: '.14em',
+                textTransform: 'uppercase',
+              }}
+            >
+              PAVILION EXTINCT · REFUND POOL ACTIVE
             </div>
-            <h4 className="text-base sm:text-lg font-black text-white font-['Cinzel'] tracking-wide flex items-center gap-2">
-              <span>{lastEliminatedNation.emoji}</span>
-              {lastEliminatedNation.name.toUpperCase()} HAS FALLEN!
+            <h4
+              style={{
+                fontSize: '17px',
+                fontWeight: 700,
+                letterSpacing: '-.02em',
+                margin: '2px 0 3px',
+                color: 'var(--paper)',
+              }}
+            >
+              {lastEliminatedNation.name} has fallen!
             </h4>
-            <p className="text-xs text-red-200/80 font-mono mt-0.5">
-              Surviving pavilions now drain at{' '}
-              <strong className="text-white">−{round.currentDrainRate}/sec</strong>.
+            <p
+              style={{
+                color: '#817d73',
+                font: "10px 'DM Mono', monospace",
+                letterSpacing: '.08em',
+              }}
+            >
+              Drain accelerated to{' '}
+              <strong style={{ color: 'var(--paper)' }}>
+                −{round.currentDrainRate}/sec
+              </strong>
+              .
             </p>
           </div>
         </div>
 
-        <button
-          onClick={dismissEliminationAlert}
-          className="p-1 rounded-lg hover:bg-white/10 text-red-300 hover:text-white transition-colors"
-        >
-          <X size={18} />
-        </button>
+        <div className="flex items-center gap-2">
+          {!hasClaimed && (
+            <button
+              onClick={() => {
+                claimRefund(lastEliminatedNation.id);
+                dismissEliminationAlert();
+              }}
+              className="support-button"
+              style={{
+                padding: '8px 12px',
+                borderColor: 'var(--brass)',
+                color: 'var(--paper)',
+                background: 'rgba(177,138,74,0.18)',
+                whiteSpace: 'nowrap',
+                fontSize: '10px',
+              }}
+            >
+              <RotateCcw size={11} className="inline mr-1" /> CLAIM REFUND
+            </button>
+          )}
+
+          <button
+            onClick={dismissEliminationAlert}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: '#817d73',
+              cursor: 'pointer',
+              padding: '4px',
+            }}
+          >
+            <X size={16} />
+          </button>
+        </div>
       </div>
     </div>
   );

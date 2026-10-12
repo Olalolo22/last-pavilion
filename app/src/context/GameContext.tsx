@@ -14,6 +14,29 @@ import {
   COOLDOWN_MS,
 } from '../lib/constants';
 
+export function playChirp(freq = 640, duration = 0.08) {
+  if (typeof window === 'undefined') return;
+  try {
+    const AudioCtx =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+    gain.gain.setValueAtTime(0.12, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + duration);
+  } catch {
+    // audio may be suppressed by browser before interaction
+  }
+}
+
 interface GameContextType {
   round: RoundState;
   player: PlayerState;
@@ -24,6 +47,7 @@ interface GameContextType {
   crowdSimulationActive: boolean;
   supportNation: (nationId: number) => boolean;
   claimRefund: (nationId: number) => void;
+  grantStipend: (amount?: number) => void;
   selectNation: (nationId: number) => void;
   toggleFastMode: () => void;
   toggleCrowdSimulation: () => void;
@@ -40,7 +64,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     startTimestamp: Date.now(),
     lastDrainTimestamp: Date.now(),
     currentDrainRate: STARTING_DRAIN_RATE,
-    aliveNationsCount: 8,
+    aliveNationsCount: INITIAL_NATIONS.filter((n) => !n.isEliminated).length,
     winnerNationId: null,
     totalActions: 184,
     totalParticipants: 47,
@@ -52,9 +76,9 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     address: 'Demo...7x9Q',
     influenceRemaining: STARTING_INFLUENCE,
     lastSupportTimestamp: 0,
-    influenceSpentPerNation: [0, 0, 0, 0, 0, 0, 0, 0],
+    influenceSpentPerNation: [0, 0, 0, 0, 0, 0, 0, 10], // 10 Influence allocated to Genesis
     refundsClaimed: [false, false, false, false, false, false, false, false],
-    totalSpent: 0,
+    totalSpent: 10,
     selectedNationId: 0, // defaults to Velocity
   }));
 
@@ -88,11 +112,14 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
   const [isFastMode, setIsFastMode] = useState<boolean>(false);
   const [crowdSimulationActive, setCrowdSimulationActive] = useState<boolean>(true);
 
-  // Check URL query parameters on mount (?speed=fast)
+  // Check URL query parameters and storage on mount (?speed=fast)
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
       if (params.get('speed') === 'fast' || params.get('mode') === 'fast') {
+        setIsFastMode(true);
+        sessionStorage.setItem('lp_fast_mode', 'true');
+      } else if (sessionStorage.getItem('lp_fast_mode') === 'true') {
         setIsFastMode(true);
       }
     }
@@ -300,12 +327,14 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         message: `Intervened for ${targetNation.name} (+50)`,
       });
 
+      playChirp(640, 0.08);
+
       return true;
     },
     [round.status, round.nations, cooldownRemaining, player.influenceRemaining, addActivity]
   );
 
-  // Claim Refund for Eliminated Nation
+  // Claim Refund or Emergency Salvage for Eliminated Nation
   const claimRefund = useCallback(
     (nationId: number) => {
       const nation = round.nations[nationId];
@@ -313,13 +342,15 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       if (player.refundsClaimed[nationId]) return;
 
       const playerSpent = player.influenceSpentPerNation[nationId];
-      if (playerSpent <= 0) return;
-
       const nationTotal = Math.max(1, nation.totalInfluenceSpent);
-      const refund = Math.min(
-        DEATH_REFUND_POOL,
-        Math.max(1, Math.round((playerSpent * DEATH_REFUND_POOL) / nationTotal))
-      );
+      // If player contributed, calculate proportional refund; if not, grant emergency salvage (15)
+      const refund =
+        playerSpent > 0
+          ? Math.min(
+              DEATH_REFUND_POOL,
+              Math.max(15, Math.round((playerSpent * DEATH_REFUND_POOL) / nationTotal))
+            )
+          : 15;
 
       setPlayer((prev) => {
         const claimed = [...prev.refundsClaimed];
@@ -330,6 +361,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
           refundsClaimed: claimed,
         };
       });
+
+      playChirp(780, 0.14);
 
       addActivity({
         type: 'REFUND',
@@ -342,6 +375,24 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       });
     },
     [round.nations, player.refundsClaimed, player.influenceSpentPerNation, addActivity]
+  );
+
+  // Grant emergency citizen stipend so players never get locked at 0 influence
+  const grantStipend = useCallback(
+    (amount = 50) => {
+      setPlayer((prev) => ({
+        ...prev,
+        influenceRemaining: prev.influenceRemaining + amount,
+      }));
+      playChirp(840, 0.12);
+      addActivity({
+        type: 'SUPPORT',
+        player: 'CITIZEN AID',
+        amount,
+        message: `Received +${amount} emergency Influence stipend`,
+      });
+    },
+    [addActivity]
   );
 
   const selectNation = useCallback((nationId: number) => {
@@ -363,7 +414,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       startTimestamp: Date.now(),
       lastDrainTimestamp: Date.now(),
       currentDrainRate: STARTING_DRAIN_RATE,
-      aliveNationsCount: 8,
+      aliveNationsCount: INITIAL_NATIONS.filter((n) => !n.isEliminated).length,
       winnerNationId: null,
       totalActions: 0,
       totalParticipants: Math.floor(30 + Math.random() * 50),
@@ -375,9 +426,9 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       address: 'Demo...7x9Q',
       influenceRemaining: STARTING_INFLUENCE,
       lastSupportTimestamp: 0,
-      influenceSpentPerNation: [0, 0, 0, 0, 0, 0, 0, 0],
+      influenceSpentPerNation: [0, 0, 0, 0, 0, 0, 0, 10],
       refundsClaimed: [false, false, false, false, false, false, false, false],
-      totalSpent: 0,
+      totalSpent: 10,
       selectedNationId: 0,
     });
 
@@ -387,7 +438,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     addActivity({
       type: 'SETTLEMENT',
       player: 'WORLD FAIR',
-      message: `⚔️ ROUND ${round.roundId + 1} COMMENCED! 8 Pavilions entered. Meters draining at −6/sec.`,
+      message: `⚔️ ROUND ${round.roundId + 1} COMMENCED! Competing pavilions entered. Meters draining at −6/sec.`,
     });
   }, [round.roundId, addActivity]);
 
@@ -407,6 +458,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         crowdSimulationActive,
         supportNation,
         claimRefund,
+        grantStipend,
         selectNation,
         toggleFastMode,
         toggleCrowdSimulation,

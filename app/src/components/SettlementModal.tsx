@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { useGame } from '../context/GameContext';
-import { Award, CheckCircle, RefreshCw, ShieldCheck } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 export function SettlementModal() {
@@ -17,10 +16,10 @@ export function SettlementModal() {
   useEffect(() => {
     if (isSettled && winner) {
       confetti({
-        particleCount: 120,
-        spread: 80,
+        particleCount: 100,
+        spread: 70,
         origin: { y: 0.6 },
-        colors: ['#f59e0b', '#00f0ff', '#a855f7', '#10b981'],
+        colors: ['#b18a4a', '#f1eee7', winner.color || '#00f0ff'],
       });
       setCountdown(10);
     }
@@ -42,87 +41,209 @@ export function SettlementModal() {
   if (!isSettled || !winner) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-300">
-      <div className="glass-panel w-full max-w-xl p-5 sm:p-8 bg-slate-950/95 border border-amber-500/50 shadow-[0_0_60px_rgba(245,158,11,0.3)] relative overflow-hidden flex flex-col items-center text-center max-h-[90vh] overflow-y-auto">
-        {/* Decorative Top Accent */}
-        <div className="w-32 h-1 bg-gradient-to-r from-transparent via-amber-400 to-transparent rounded-full mb-6" />
-
-        {/* Champion Badge */}
-        <div
-          className="w-20 h-20 rounded-2xl flex items-center justify-center mb-4 shadow-[0_0_30px_rgba(245,158,11,0.3)] animate-pulse border-2 text-5xl"
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{
+        background: 'rgba(17, 17, 15, 0.88)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+      }}
+    >
+      <div
+        className="w-full max-w-lg p-6 sm:p-10 relative overflow-hidden flex flex-col items-center text-center animate-in fade-in zoom-in-95 duration-300"
+        style={{
+          background: '#1a1916',
+          border: '1px solid var(--line)',
+          borderTop: `3px solid ${winner.color}`,
+          boxShadow: '0 24px 64px rgba(0, 0, 0, 0.85)',
+          color: 'var(--paper)',
+          fontFamily: "'DM Sans', sans-serif",
+        }}
+      >
+        {/* Eyebrow */}
+        <p
+          className="eyebrow"
           style={{
-            backgroundColor: `${winner.color}20`,
-            borderColor: `${winner.color}60`,
+            color: 'var(--brass)',
+            font: "500 10px 'DM Mono', monospace",
+            letterSpacing: '.22em',
+            textTransform: 'uppercase',
+            marginBottom: '16px',
+          }}
+        >
+          CRYPTO&apos;S WORLD FAIR · ROUND {round.roundId} SETTLEMENT
+        </p>
+
+        {/* Champion Emblem */}
+        <div
+          style={{
+            width: '74px',
+            height: '74px',
+            fontSize: '40px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: '18px',
+            background: '#24221d',
+            border: `1px solid ${winner.color}60`,
+            boxShadow: `0 0 28px ${winner.color}35`,
           }}
         >
           {winner.emoji}
         </div>
 
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-mono font-bold tracking-wider uppercase mb-2">
-          <Award size={13} />
-          CRYPTO WORLD'S FAIR • SOLE SURVIVOR
-        </div>
-
-        <h2 className="text-3xl sm:text-4xl font-black text-white font-['Cinzel'] tracking-wide mb-1 uppercase">
-          {winner.name} Wins!
+        {/* Title */}
+        <h2
+          style={{
+            fontSize: 'clamp(32px, 5vw, 48px)',
+            lineHeight: '1.0',
+            letterSpacing: '-.06em',
+            margin: '0 0 10px',
+            color: 'var(--paper)',
+          }}
+        >
+          {winner.name}{' '}
+          <em
+            style={{
+              color: 'var(--brass)',
+              fontFamily: "'Playfair Display', serif",
+              fontWeight: 700,
+            }}
+          >
+            Wins.
+          </em>
         </h2>
-        <p className="text-xs sm:text-sm text-slate-400 font-mono mb-6">
-          {winner.tagline} is the Last Pavilion standing.
+
+        <p
+          style={{
+            color: '#817d73',
+            font: "11px 'DM Mono', monospace",
+            letterSpacing: '.12em',
+            textTransform: 'uppercase',
+            marginBottom: '26px',
+          }}
+        >
+          {winner.tagline} · SOLE SURVIVOR
         </p>
 
         {/* Settlement Metrics Box */}
-        <div className="w-full grid grid-cols-3 gap-3 p-4 rounded-xl bg-white/[0.03] border border-white/10 mb-6 font-mono text-left">
+        <div
+          style={{
+            width: '100%',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '10px',
+            padding: '16px',
+            background: '#24221d',
+            border: '1px solid var(--line)',
+            marginBottom: '20px',
+            fontFamily: "'DM Mono', monospace",
+            textAlign: 'left',
+          }}
+        >
           <div>
-            <div className="text-[10px] text-slate-500 uppercase">INTERVENTIONS</div>
-            <div className="text-lg sm:text-xl font-bold text-white">
+            <div style={{ color: '#817d73', fontSize: '10px', letterSpacing: '.12em' }}>
+              ACTIONS
+            </div>
+            <div
+              style={{
+                color: 'var(--paper)',
+                fontSize: '20px',
+                fontWeight: 700,
+                marginTop: '3px',
+              }}
+            >
               {round.totalActions}
             </div>
           </div>
           <div>
-            <div className="text-[10px] text-slate-500 uppercase">CITIZENS</div>
-            <div className="text-lg sm:text-xl font-bold text-amber-300">
+            <div style={{ color: '#817d73', fontSize: '10px', letterSpacing: '.12em' }}>
+              CITIZENS
+            </div>
+            <div
+              style={{
+                color: 'var(--brass)',
+                fontSize: '20px',
+                fontWeight: 700,
+                marginTop: '3px',
+              }}
+            >
               {round.totalParticipants}
             </div>
           </div>
           <div>
-            <div className="text-[10px] text-slate-500 uppercase">SETTLEMENT</div>
-            <div className="text-lg sm:text-xl font-bold text-emerald-400 flex items-center gap-1">
-              <CheckCircle size={15} />
+            <div style={{ color: '#817d73', fontSize: '10px', letterSpacing: '.12em' }}>
+              SETTLED ON
+            </div>
+            <div
+              style={{
+                color: '#9cbd73',
+                fontSize: '18px',
+                fontWeight: 700,
+                marginTop: '3px',
+              }}
+            >
               SOLANA
             </div>
           </div>
         </div>
 
-        {/* MagicBlock Technology Reveal */}
-        <div className="w-full p-3.5 rounded-xl bg-cyan-950/20 border border-cyan-500/30 flex items-center justify-between gap-3 mb-6 text-left">
-          <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-400">
-              <ShieldCheck size={18} />
-            </div>
-            <div>
-              <div className="text-xs font-mono font-bold text-cyan-300">
-                MagicBlock Ephemeral Rollup
-              </div>
-              <div className="text-[10px] text-slate-400 font-mono">
-                Native Solana state delegation · Sub-second TEE execution · Settled on Solana
-              </div>
-            </div>
+        {/* Commitment Architecture Note */}
+        <div
+          style={{
+            width: '100%',
+            padding: '12px 16px',
+            background: '#11110f',
+            border: '1px solid var(--line)',
+            borderLeft: '3px solid var(--brass)',
+            marginBottom: '24px',
+            textAlign: 'left',
+            fontFamily: "'DM Mono', monospace",
+          }}
+        >
+          <div
+            style={{
+              color: 'var(--brass)',
+              fontSize: '10px',
+              fontWeight: 500,
+              letterSpacing: '.14em',
+              textTransform: 'uppercase',
+            }}
+          >
+            State Commitment · MagicBlock TEE → Solana L1
           </div>
-          <span className="text-[10px] font-mono text-cyan-400/80 bg-cyan-500/10 px-2 py-1 rounded border border-cyan-500/20">
-            VERIFIED
-          </span>
+          <div
+            style={{
+              color: '#817d73',
+              fontSize: '11px',
+              marginTop: '4px',
+              lineHeight: '1.4',
+            }}
+          >
+            Native SVM account committed atomically upon final nation extinction.
+          </div>
         </div>
 
         {/* Action Button: Auto-Countdown */}
-        <div className="w-full flex flex-col sm:flex-row items-center gap-3">
-          <button
-            onClick={resetRound}
-            className="w-full py-3 px-6 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-mono font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-[0_0_25px_rgba(245,158,11,0.4)] transition-all"
-          >
-            <RefreshCw size={16} />
-            START NEXT ROUND ({countdown}s)
-          </button>
-        </div>
+        <button
+          onClick={resetRound}
+          className="enter-button"
+          style={{
+            width: '100%',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            margin: 0,
+            padding: '16px 24px',
+            background: 'var(--paper)',
+            color: 'var(--ink)',
+            font: "700 12px 'DM Mono', monospace",
+            letterSpacing: '.12em',
+            textTransform: 'uppercase',
+            transition: '.2s',
+          }}
+        >
+          START NEXT ROUND ({countdown}s) →
+        </button>
       </div>
     </div>
   );
